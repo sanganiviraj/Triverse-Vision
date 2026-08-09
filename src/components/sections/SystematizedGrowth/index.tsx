@@ -84,8 +84,7 @@ export default function SystematizedGrowth() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="growth-title"
           >
-            Our Proven <br />
-            <span className="text-gradient">Personal Branding Agency Protocol</span>
+            Our Proven <span className="text-gradient">Personal Branding Agency Protocol</span>
           </motion.h2>
           
           <motion.p 

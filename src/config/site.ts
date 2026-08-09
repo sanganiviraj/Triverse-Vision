@@ -4,8 +4,9 @@ export const siteConfig = {
   url: "https://triversevision.com",
   ogImage: "https://triversevision.com/og.jpg",
   links: {
-    twitter: "https://twitter.com/triversevision",
-    github: "https://github.com/triversevision",
+    linkedin: "https://www.linkedin.com/in/triverse-vision-ba2026413/",
+    instagram: "https://www.instagram.com/triverse.vision/",
+    facebook: "https://www.facebook.com/profile.php?id=61592906851894",
   },
   mainNav: [
     {
@@ -15,10 +16,6 @@ export const siteConfig = {
     {
       title: "Services",
       href: "#services",
-    },
-    {
-      title: "Process",
-      href: "#process",
     },
     {
       title: "Approach",

@@ -3,17 +3,16 @@ export const SITE_CONFIG = {
   description: 'Triverse Vision crafts cinematic reels, brand films, and social content that transforms founders into global authorities.',
   email: 'hello@triversevision.com',
   socials: {
-    instagram: '#',
-    linkedin: '#',
-    youtube: '#',
+    linkedin: 'https://www.linkedin.com/in/triverse-vision-ba2026413/',
+    instagram: 'https://www.instagram.com/triverse.vision/',
+    facebook: 'https://www.facebook.com/profile.php?id=61592906851894',
   }
 };
 
 export const NAV_LINKS = [
   { label: 'Work', href: '#work' },
   { label: 'Services', href: '#services' },
-  { label: 'Process', href: '#process' },
-  { label: 'Approach', href: '#approach' },
+  { label: 'Packages', href: '#packages' },
 ];
 
 export const SERVICES = [

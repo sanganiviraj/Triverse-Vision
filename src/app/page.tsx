@@ -2,10 +2,9 @@ import {
   Hero, 
   MarqueeStrip,
   Work, 
-  Approach,
   Services, 
-  Process, 
   SystematizedGrowth,
+  Packages,
   Contact 
 } from '@/components/sections';
 
@@ -15,12 +14,12 @@ export default function Home() {
       <Hero />
       <MarqueeStrip />
       <Work />
-      <Approach />
       <Services />
-      <Process />
       <SystematizedGrowth />
+      <Packages />
       <Contact />
     </main>
   );
 }
+
 
