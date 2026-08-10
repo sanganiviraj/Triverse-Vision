@@ -171,7 +171,7 @@ export default function Contact() {
               </li>
             </ul>
           </FadeIn>
-          
+
           <FadeIn direction="right" duration={0.8} delay={0.2} className="contact-form-wrap">
             {isSuccess ? (
               <div className="success-message" style={{ textAlign: 'center', padding: '40px 20px', color: '#03045e' }}>
@@ -186,7 +186,7 @@ export default function Contact() {
               <form className="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" onSubmit={handleSubmit(onSubmit)}>
                 <input type="hidden" name="form-name" value="contact" />
                 <input type="hidden" {...register('package')} value={selectedPackageId} />
-                
+
                 <div className="form-group">
                   <label htmlFor="name">Full Name</label>
                   <input type="text" id="name" placeholder="Your name" {...register('name')} />
@@ -295,25 +295,39 @@ export default function Contact() {
 
       {/* Embedded CSS for Custom Dropdown Styling */}
       <style>{`
+        .contact-grid,
+        .contact-form-wrap,
+        .contact-form {
+          position: relative;
+          z-index: 50;
+          overflow: visible !important;
+        }
+
         .custom-select-container {
           position: relative;
           width: 100%;
+          z-index: 1000;
         }
 
         .custom-select-trigger {
           width: 100%;
+          height: 48px !important;
+          min-height: 48px !important;
+          max-height: 48px !important;
+          box-sizing: border-box !important;
           background: #f7fbff;
           border: 1px solid rgba(2, 62, 138, 0.18);
           border-radius: var(--r-sm, 12px);
-          padding: 12px 16px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
+          padding: 0 14px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          gap: 8px !important;
           cursor: pointer;
-          transition: all 0.25s ease;
+          transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
           text-align: left;
           outline: none;
+          overflow: hidden !important;
         }
 
         .custom-select-trigger:hover,
@@ -324,67 +338,78 @@ export default function Contact() {
         }
 
         .trigger-left {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          overflow: hidden;
+          display: flex !important;
+          align-items: center !important;
+          gap: 6px !important;
+          flex: 1 1 auto !important;
+          min-width: 0 !important;
+          overflow: hidden !important;
         }
 
         .trigger-pkg-name {
           font-weight: 600;
-          font-size: 0.92rem;
+          font-size: 0.9rem;
           color: #03045e;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
+          text-overflow: ellipsis !important;
+          overflow: hidden !important;
+          display: block !important;
+          min-width: 50% !important;
+          flex: 1 1 auto !important;
         }
 
         .trigger-pkg-sub {
-          font-size: 0.8rem;
+          font-size: 0.78rem;
           color: #0077b6;
           font-weight: 500;
-          white-space: nowrap;
+          white-space: nowrap !important;
+          flex-shrink: 0 !important;
         }
 
         .trigger-right {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          flex-shrink: 0;
+          display: flex !important;
+          align-items: center !important;
+          gap: 6px !important;
+          flex-shrink: 0 !important;
         }
 
         .trigger-price-badge {
-          font-size: 0.8rem;
+          font-size: 0.76rem;
           font-weight: 700;
           background: linear-gradient(135deg, #023e8a 0%, #00b4d8 100%);
           color: #ffffff;
-          padding: 4px 10px;
+          padding: 3px 8px;
           border-radius: 100px;
-          white-space: nowrap;
+          white-space: nowrap !important;
           box-shadow: 0 2px 8px rgba(0, 119, 182, 0.2);
+          flex-shrink: 0 !important;
         }
 
         .trigger-arrow {
           color: #023e8a;
           transition: transform 0.3s ease;
+          flex-shrink: 0 !important;
+          width: 16px;
+          height: 16px;
         }
 
         .trigger-arrow.rotate {
           transform: rotate(180deg);
         }
 
-        /* Menu Dropdown */
+        /* Menu Dropdown - Floating with high z-index and smooth internal scroll */
         .custom-select-menu {
           position: absolute;
-          top: calc(100% + 8px);
+          top: calc(100% + 6px);
           left: 0;
           right: 0;
           background: #ffffff;
-          border: 1px solid rgba(0, 180, 216, 0.25);
+          border: 1px solid rgba(0, 180, 216, 0.3);
           border-radius: 16px;
-          padding: 8px;
-          box-shadow: 0 16px 40px rgba(2, 62, 138, 0.16);
-          z-index: 100;
+          padding: 6px;
+          box-shadow: 0 20px 60px rgba(2, 62, 138, 0.25);
+          z-index: 999999 !important;
+          max-height: 220px;
+          overflow-y: auto;
           display: flex;
           flex-direction: column;
           gap: 4px;
@@ -403,11 +428,15 @@ export default function Contact() {
         }
 
         .custom-select-option {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 12px 14px;
-          border-radius: 12px;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          gap: 8px !important;
+          padding: 8px 12px !important;
+          min-height: 44px !important;
+          max-height: 44px !important;
+          box-sizing: border-box !important;
+          border-radius: 10px;
           cursor: pointer;
           transition: all 0.2s ease;
           border: 1px solid transparent;
@@ -424,55 +453,104 @@ export default function Contact() {
         }
 
         .option-info {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
+          display: flex !important;
+          flex-direction: column !important;
+          justify-content: center !important;
+          gap: 1px !important;
+          flex: 1 1 auto !important;
+          min-width: 0 !important;
+          overflow: hidden !important;
         }
 
         .option-name {
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           font-weight: 600;
           color: #03045e;
+          white-space: nowrap !important;
+          text-overflow: ellipsis !important;
+          overflow: hidden !important;
+          max-width: 70% !important;
         }
 
         .option-sub {
-          font-size: 0.78rem;
+          font-size: 0.74rem;
           color: #0077b6;
+          white-space: nowrap !important;
+          text-overflow: ellipsis !important;
+          overflow: hidden !important;
         }
 
         .option-price-wrap {
-          display: flex;
-          align-items: center;
-          gap: 10px;
+          display: flex !important;
+          align-items: center !important;
+          gap: 6px !important;
+          flex-shrink: 0 !important;
         }
 
         .option-price-pill {
-          font-size: 0.8rem;
+          font-size: 0.72rem;
           font-weight: 700;
           color: #023e8a;
           background: #caf0f8;
-          padding: 4px 10px;
+          padding: 2px 7px;
           border-radius: 100px;
           border: 1px solid rgba(0, 180, 216, 0.2);
+          white-space: nowrap !important;
+          flex-shrink: 0 !important;
         }
 
         .option-check {
           color: #00b4d8;
+          flex-shrink: 0 !important;
         }
 
         @media (max-width: 600px) {
           .trigger-pkg-sub {
-            display: none;
+            display: none !important;
           }
           .custom-select-trigger {
-            padding: 10px 12px;
+            padding: 0 10px !important;
+            height: 48px !important;
+            min-height: 48px !important;
+            max-height: 48px !important;
+          }
+          .trigger-pkg-name {
+            font-size: 0.82rem;
           }
           .trigger-price-badge {
-            font-size: 0.75rem;
-            padding: 3px 8px;
+            font-size: 0.68rem;
+            padding: 2px 6px;
+          }
+          .custom-select-option {
+            padding: 6px 8px !important;
+            gap: 6px !important;
+          }
+          .option-name {
+            font-size: 0.80rem;
+          }
+          .option-sub {
+            font-size: 0.70rem;
           }
           .option-price-pill {
-            font-size: 0.75rem;
+            font-size: 0.66rem;
+            padding: 2px 5px;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .trigger-pkg-name {
+            font-size: 0.78rem;
+          }
+          .trigger-price-badge {
+            font-size: 0.64rem;
+            padding: 2px 5px;
+          }
+          .option-name {
+            font-size: 0.76rem;
+          }
+          .option-price-pill {
+            font-size: 0.64rem;
+            padding: 2px 5px;
           }
         }
       `}</style>

@@ -99,42 +99,71 @@ export default function SystematizedGrowth() {
 
         {/* Timeline Section */}
         <div className="growth-timeline-wrapper">
-          {/* Vertical Timeline Line */}
+          {/* Vertical Timeline Line - Desktop */}
           <div className="growth-line-bg hidden-mobile" />
           <motion.div 
             className="growth-line-fill hidden-mobile"
             style={{ scaleY, x: "-50%" }}
           />
 
+          {/* Vertical Timeline Line - Mobile Progress Bar */}
+          <div className="growth-mobile-line-bg mobile-only" />
+          <motion.div 
+            className="growth-mobile-line-fill mobile-only"
+            style={{ scaleY }}
+          />
+
           <div className="growth-steps">
             {steps.map((step, index) => (
-              <div key={index} className={`growth-step-row ${index % 2 === 0 ? 'row-normal' : 'row-reverse'}`}>
-                
+              <motion.div 
+                key={index} 
+                className={`growth-step-row ${index % 2 === 0 ? 'row-normal' : 'row-reverse'}`}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true, margin: "-60px" }}
+              >
+                {/* Mobile Step Progress Node Dot */}
+                <div className="growth-mobile-dot-node mobile-only">
+                  <span className="dot-pulse" />
+                  <span className="dot-num">{step.number}</span>
+                </div>
+
                 {/* Content Side */}
                 <div className="growth-content-col">
-                  <motion.div
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    className="growth-card"
-                  >
-                    <div className={`ghost-number ${index % 2 === 0 ? 'ghost-right' : 'ghost-left'}`}>
+                  <div className="growth-card">
+                    <div className={`ghost-number hidden-mobile ${index % 2 === 0 ? 'ghost-right' : 'ghost-left'}`}>
                       {step.number}
                     </div>
 
                     <div className={`card-inner ${index % 2 === 0 ? 'align-end text-right' : 'align-start text-left'}`}>
-                      <div className="icon-box">
-                        {step.icon}
+                      <div className="card-top-bar flex items-center justify-between w-full mb-3">
+                        <div className="icon-box">
+                          {step.icon}
+                        </div>
+                        <span className="mobile-step-badge mobile-only">STEP {step.number}</span>
                       </div>
+
                       <h3 className="card-title">
                         {step.title}
                       </h3>
                       <p className="card-desc">
                         {step.description}
                       </p>
+
+                      {/* Embedded Image Preview for Mobile View */}
+                      <div className="growth-card-mobile-image mobile-only" style={{ position: 'relative' }}>
+                        <Image 
+                          src={step.image} 
+                          alt={step.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="growth-img-mobile"
+                        />
+                        <div className="image-overlay" />
+                      </div>
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
 
                 {/* Center Circle */}
@@ -147,14 +176,15 @@ export default function SystematizedGrowth() {
                   />
                 </div>
 
-                {/* Image Side */}
-                <div className="growth-image-col">
+                {/* Image Side - Desktop */}
+                <div className="growth-image-col hidden-mobile">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true, margin: "-50px" }}
                     className="growth-image-wrapper"
+                    style={{ position: 'relative' }}
                   >
                     <Image 
                       src={step.image} 
@@ -166,7 +196,7 @@ export default function SystematizedGrowth() {
                     <div className="image-overlay" />
                   </motion.div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

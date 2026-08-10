@@ -80,7 +80,7 @@ export default function CustomCursor() {
           width: isHovered ? 56 : 36,
           height: isHovered ? 56 : 36,
           borderColor: isHovered ? '#0096c7' : '#00b4d8',
-          backgroundColor: isHovered ? 'rgba(0, 150, 199, 0.05)' : 'transparent',
+          backgroundColor: isHovered ? 'rgba(0, 150, 199, 0.05)' : 'rgba(0, 150, 199, 0)',
         }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
         style={{

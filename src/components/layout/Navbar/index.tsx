@@ -459,11 +459,24 @@ export default function Navbar() {
         /* Responsive Breakpoints */
         @media (max-width: 900px) {
           .glass-navbar {
-            padding: 12px 16px !important; /* 12px gap above and below, 16px gap on sides */
+            padding: 10px 12px !important;
           }
 
           .navbar-inner {
-            padding: 8px 20px !important;
+            padding: 8px 16px !important;
+          }
+
+          .nav-logo {
+            gap: 8px;
+            font-size: 15px;
+          }
+
+          .nav-logo-img {
+            height: 44px;
+          }
+
+          .glass-navbar.scrolled .nav-logo-img {
+            height: 38px;
           }
 
           .cta-button-glass {
@@ -472,30 +485,34 @@ export default function Navbar() {
 
           .hamburger-btn {
             display: flex;
+            min-width: 44px;
+            min-height: 44px;
+            align-items: center;
+            justify-content: center;
           }
 
-          /* Mobile Menu Overlay - Smooth Cupertino-style spring transition */
+          /* Mobile Menu Overlay - Clean floating glass card */
           .glass-navbar .nav-links {
             display: flex !important;
             flex-direction: column;
             position: absolute;
-            top: 100%;
-            margin-top: 10px; /* 10px gap between header and dropdown */
-            left: -20px;
-            right: -20px;
-            background: rgba(255, 255, 255, 0.72);
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            margin: 0;
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(32px) saturate(180%);
             -webkit-backdrop-filter: blur(32px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 24px;
-            padding: 24px 20px;
+            padding: 20px 16px;
             gap: 6px;
-            box-shadow: 0 30px 60px rgba(2, 62, 138, 0.12),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(2, 62, 138, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.8);
             opacity: 0;
             transform: translateY(-12px) scale(0.96);
             pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1000;
           }
 
@@ -504,7 +521,6 @@ export default function Navbar() {
             opacity: 1;
             transform: translateY(0) scale(1);
             pointer-events: auto;
-            margin: 20px;
           }
 
           /* Mobile list item adjustments */
@@ -518,11 +534,12 @@ export default function Navbar() {
             display: block;
             font-size: 15px;
             font-weight: 500;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border-radius: 12px;
             color: var(--gray-700, #2d4a5c);
             transition: all 0.25s ease;
             border: 1px solid transparent;
+            min-height: 44px;
           }
 
           /* Mobile hover states */
@@ -531,7 +548,7 @@ export default function Navbar() {
             background: rgba(2, 62, 138, 0.05);
           }
 
-          /* Mobile active indicator style (sleek, glowy glass look) */
+          /* Mobile active indicator style */
           .glass-navbar .nav-link.active {
             color: var(--french-blue, #023e8a);
             font-weight: 600;
@@ -558,6 +575,20 @@ export default function Navbar() {
             padding: 12px 30px;
             font-size: 14.5px;
             border-radius: 100px;
+            min-height: 44px;
+            align-items: center;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .logo-text {
+            font-size: 14px;
+          }
+          .nav-logo-img {
+            height: 38px;
+          }
+          .glass-navbar.scrolled .nav-logo-img {
+            height: 34px;
           }
         }
       `}</style>
