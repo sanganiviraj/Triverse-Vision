@@ -13,8 +13,7 @@ interface NavLink {
 const NAV_LINKS: NavLink[] = [
   { label: 'Work', href: '#work' },
   { label: 'Services', href: '#services' },
-  { label: 'Process', href: '#process' },
-  { label: 'Approach', href: '#approach' },
+  { label: 'Packages', href: '#packages' },
 ];
 
 export default function Navbar() {
