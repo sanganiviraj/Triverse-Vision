@@ -1426,7 +1426,8 @@ ul {
 .contact {
   background: linear-gradient(180deg, #ffffff 0%, #f4f9fd 50%, #eef6fc 100%);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  z-index: 50;
 }
 
 .contact-grid {
@@ -2227,16 +2228,19 @@ ul {
 
 .packages-toggle-pill {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--white);
-  padding: 6px;
+  padding: 5px;
   border-radius: 100px;
   border: 1px solid var(--gray-200);
   box-shadow: 0 4px 20px rgba(0, 119, 182, 0.08);
-  gap: 6px;
+  gap: 4px;
+  max-width: 100%;
 }
 
 .toggle-btn {
-  padding: 10px 24px;
+  padding: 10px 20px;
   border-radius: 100px;
   font-size: 14px;
   font-weight: 600;
@@ -2244,7 +2248,19 @@ ul {
   transition: all 0.3s var(--ease-out);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap !important;
+  cursor: pointer;
+  border: none;
+  line-height: 1.2;
+}
+
+.toggle-btn span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap !important;
 }
 
 .toggle-btn:hover {
@@ -2259,11 +2275,13 @@ ul {
 
 .savings-tag {
   background: rgba(255, 255, 255, 0.25);
-  font-size: 11px;
-  padding: 2px 8px;
+  font-size: 10px;
+  padding: 2px 7px;
   border-radius: 20px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap !important;
+  font-weight: 700;
 }
 
 /* ─ Grid ─ */
@@ -4263,27 +4281,275 @@ ul {
   background: rgba(173, 232, 244, 0.2);
 }
 
+/* Helper utility classes for responsiveness */
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  /* 1. Services Section 2x2 Grid Layout */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .service-card {
+    padding: 16px 14px !important;
+    border-radius: 16px !important;
+  }
+
+  .service-card-header {
+    margin-bottom: 10px !important;
+  }
+
+  .service-icon-wrap {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .service-icon-wrap svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .service-num {
+    font-size: 0.7rem !important;
+  }
+
+  .service-card h3 {
+    font-size: 0.92rem !important;
+    margin-bottom: 6px !important;
+    line-height: 1.3 !important;
+  }
+
+  .service-card p {
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .service-hover-indicator {
+    display: none !important;
+  }
+
+  /* 2. Work Bento Section 2x2 Grid Layout & Compact Heights */
+  .work-bento {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .work-bento__center {
+    order: -1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 150px !important;
+    min-height: 150px !important;
+    aspect-ratio: auto !important;
+    border-radius: 16px !important;
+  }
+
+  .work-bento__center > div {
+    min-height: 150px !important;
+  }
+
+  .work-bento__center-overlay {
+    padding: 14px 16px !important;
+  }
+
+  .work-bento__center-text {
+    font-size: 0.9rem !important;
+  }
+
+  .work-bento__center-text strong {
+    font-size: 1.05rem !important;
+  }
+
+  .work-bento__col {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .work-bento__card {
+    padding: 14px 12px !important;
+    border-radius: 14px !important;
+    min-height: unset !important;
+  }
+
+  .work-bento__card-title {
+    font-size: 0.88rem !important;
+    margin-bottom: 4px !important;
+    line-height: 1.3 !important;
+  }
+
+  .work-bento__card-desc {
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .work-bento__arrow {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .work-bento__arrow svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* 3. Contact Section 1-Column Center Layout */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+    width: 100% !important;
+  }
+
+  .contact-info {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  .contact-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    max-width: 480px !important;
+    text-align: center !important;
+    margin: 0 auto 24px auto !important;
+  }
+
+  .contact-perks {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin: 0 auto !important;
+    text-align: left !important;
+    gap: 12px !important;
+  }
+
+  .contact-form-wrap {
+    width: 100% !important;
+    max-width: 540px !important;
+    margin: 0 auto !important;
+    padding: 28px 22px !important;
+  }
+}
+
 @media (max-width: 768px) {
+  .mobile-only {
+    display: flex !important;
+  }
+
   .hidden-mobile {
-    display: none;
+    display: none !important;
+  }
+
+  .growth-title {
+    white-space: normal !important;
+    font-size: clamp(1.4rem, 5vw, 2.2rem) !important;
+    margin-bottom: 16px !important;
+  }
+
+  .growth-subtitle {
+    font-size: 0.92rem !important;
+    padding: 0 10px;
+  }
+
+  .growth-header {
+    margin-bottom: 40px !important;
+  }
+
+  .growth-timeline-wrapper {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Left-aligned vertical animated progress bar on mobile - Perfectly Centered at X = 32px */
+  .growth-mobile-line-bg {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 32px;
+    width: 2px;
+    transform: translateX(-50%);
+    background: rgba(0, 119, 182, 0.15);
+    z-index: 1;
+  }
+
+  .growth-mobile-line-fill {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 32px;
+    width: 4px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, #023e8a 0%, #00b4d8 100%);
+    transform-origin: top;
+    z-index: 2;
+    box-shadow: 0 0 12px rgba(0, 180, 216, 0.6);
+  }
+
+  .growth-steps {
+    gap: 36px !important;
+    padding-left: 48px !important;
   }
 
   .growth-step-row {
+    position: relative;
     flex-direction: column !important;
-    gap: 40px;
+    gap: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Centered Node Circle: Row content is at 64px from wrapper edge, line is at 32px -> left: -32px places circle center EXACTLY at 32px */
+  .growth-mobile-dot-node {
+    position: absolute;
+    left: -32px !important;
+    top: 24px;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    border-radius: 50% !important;
+    aspect-ratio: 1 / 1 !important;
+    flex-shrink: 0 !important;
+    background: linear-gradient(135deg, #023e8a 0%, #00b4d8 100%);
+    border: 2.5px solid #ffffff;
+    box-shadow: 0 0 16px rgba(0, 180, 216, 0.45), 0 4px 12px rgba(2, 62, 138, 0.25);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box !important;
+  }
+
+  .dot-num {
+    font-size: 11px;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: var(--font-head);
+    line-height: 1;
+    display: block;
+    text-align: center;
   }
 
   .growth-content-col,
   .growth-image-col {
-    width: 100%;
+    width: 100% !important;
   }
 
-  .growth-header {
-    margin-bottom: 40px;
-  }
-
-  .growth-steps {
-    gap: 60px;
+  .growth-card {
+    width: 100% !important;
+    padding: 20px 18px !important;
+    border-radius: 20px !important;
   }
 
   .card-inner {
@@ -4291,8 +4557,68 @@ ul {
     text-align: left !important;
   }
 
+  .mobile-step-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #0077b6;
+    background: #e0f2fe;
+    padding: 4px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+  }
+
+  .growth-card-mobile-image {
+    margin-top: 16px;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative !important;
+  }
+
   .ghost-number {
-    display: none;
+    display: none !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .packages-toggle-wrapper {
+    padding: 0 8px !important;
+    width: 100% !important;
+  }
+
+  .packages-toggle-pill {
+    padding: 4px !important;
+    gap: 2px !important;
+    width: 100% !important;
+    max-width: 360px !important;
+    margin: 0 auto !important;
+  }
+
+  .toggle-btn {
+    padding: 9px 12px !important;
+    font-size: 12.5px !important;
+    gap: 4px !important;
+    flex: 1 1 50% !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+  }
+
+  .savings-tag {
+    font-size: 9px !important;
+    padding: 1.5px 5px !important;
+    margin-left: 2px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .toggle-btn {
+    padding: 8px 6px !important;
+    font-size: 11px !important;
+  }
+  .savings-tag {
+    font-size: 8px !important;
+    padding: 1px 4px !important;
   }
 }
 
