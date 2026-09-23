@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { generateLiquidGlassFilterMaps } from '@/lib/liquidGlass';
 
@@ -14,13 +15,26 @@ const NAV_LINKS: NavLink[] = [
   { label: 'Work', href: '#work' },
   { label: 'Services', href: '#services' },
   { label: 'Packages', href: '#packages' },
+  { label: 'Portfolio', href: '/portfolio' },
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('#hero');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+
+  // Sync activeLink with pathname
+  useEffect(() => {
+    if (pathname === '/portfolio') {
+      setActiveLink('/portfolio');
+    } else if (pathname === '/') {
+      if (activeLink === '/portfolio' || activeLink === '/about') {
+        setActiveLink('#hero');
+      }
+    }
+  }, [pathname, activeLink]);
 
   const { scrollY } = useScroll();
 
@@ -77,6 +91,10 @@ export default function Navbar() {
         const targetId = href;
         if (targetId === '#') {
           e.preventDefault();
+          if (pathname !== '/') {
+            window.location.href = '/';
+            return;
+          }
           window.scrollTo({ top: 0, behavior: 'smooth' });
           setActiveLink('#hero');
           window.history.pushState(null, '', '/');
@@ -104,6 +122,10 @@ export default function Navbar() {
             top: offsetPosition,
             behavior: 'smooth'
           });
+        } else if (pathname !== '/') {
+          // If we are on /about, navigate to home with the hash
+          e.preventDefault();
+          window.location.href = '/' + (targetId === '#hero' ? '' : targetId);
         }
       }
     };
@@ -112,12 +134,11 @@ export default function Navbar() {
     return () => {
       document.removeEventListener('click', handleHashLinkClick);
     };
-  }, [getElementByHashSafe]);
+  }, [getElementByHashSafe, pathname]);
 
   // Handle clean path scroll on initial load (e.g. going directly to /process)
   useEffect(() => {
-    const pathname = window.location.pathname;
-    if (pathname && pathname !== '/') {
+    if (pathname && pathname !== '/' && pathname !== '/portfolio' && pathname !== '/about') {
       const targetId = `#${pathname.substring(1)}`;
       const element = getElementByHashSafe(targetId);
       if (element) {
@@ -139,7 +160,7 @@ export default function Navbar() {
         return () => clearTimeout(timer);
       }
     }
-  }, [getElementByHashSafe]);
+  }, [getElementByHashSafe, pathname]);
 
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), []);
   const handleLinkClick = useCallback((href: string) => {
@@ -214,28 +235,50 @@ export default function Navbar() {
         <div className="navbar-inner" ref={navInnerRef}>
 
           {/* Brand Logo */}
-          <a href="#hero" className="nav-logo" onClick={() => handleLinkClick('#hero')}>
-            <Image src="/assets/triverse_vision_logo.png" alt="Triverse Vision Logo" width={260} height={56} className="nav-logo-img" />
+          <a
+            href={pathname === '/' ? '#hero' : '/'}
+            className="nav-logo"
+            onClick={() => handleLinkClick(pathname === '/' ? '#hero' : '/')}
+          >
+            <Image
+              src="/assets/triverse_vision_logo.png"
+              alt="Triverse Vision Logo"
+              width={160}
+              height={38}
+              priority
+              style={{ height: '38px', width: 'auto' }}
+              className="nav-logo-img"
+            />
             <span className="logo-text">Triverse Vision</span>
           </a>
 
           {/* Desktop Navigation Links */}
           <ul className="nav-links">
-            {NAV_LINKS.map(({ label, href }) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  className={`nav-link ${activeLink === href ? 'active' : ''}`}
-                  onClick={() => handleLinkClick(href)}
-                >
-                  {label}
-                </a>
-              </li>
-            ))}
+            {NAV_LINKS.map(({ label, href }) => {
+              const isCurrent = href.startsWith('/') 
+                ? pathname === href 
+                : (pathname === '/' && activeLink === href);
+              
+              const targetHref = href.startsWith('#') && pathname !== '/' 
+                ? `/${href}` 
+                : href;
+
+              return (
+                <li key={href}>
+                  <a
+                    href={targetHref}
+                    className={`nav-link ${isCurrent ? 'active' : ''}`}
+                    onClick={() => handleLinkClick(href)}
+                  >
+                    {label}
+                  </a>
+                </li>
+              );
+            })}
             {/* Mobile CTA Button inside dropdown */}
             <li className="mobile-cta-item">
               <a
-                href="#contact"
+                href={pathname === '/' ? '#contact' : '/#contact'}
                 className="cta-button-glass mobile-cta"
                 onClick={() => handleLinkClick('#contact')}
               >
@@ -245,7 +288,11 @@ export default function Navbar() {
           </ul>
 
           {/* Premium Glass CTA Button */}
-          <a href="#contact" className="cta-button-glass" onClick={() => handleLinkClick('#contact')}>
+          <a
+            href={pathname === '/' ? '#contact' : '/#contact'}
+            className="cta-button-glass"
+            onClick={() => handleLinkClick('#contact')}
+          >
             Get Started
           </a>
 
@@ -284,9 +331,9 @@ export default function Navbar() {
 
         /* Container styling */
         .navbar-inner {
-          max-width: 1180px;
+          max-width: 1440px;
           margin: 0 auto;
-          padding: 12px 24px;
+          padding: 12px 28px;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -299,13 +346,13 @@ export default function Navbar() {
 
         /* Scrolled Glassmorphism State */
         .glass-navbar.scrolled .navbar-inner {
-          max-width: 900px;
-          padding: 8px 20px;
-          background: rgba(255, 255, 255, 0.6);
-          backdrop-filter: url(#liquid-glass-filter), blur(48px) saturate(180%);
-          -webkit-backdrop-filter: url(#liquid-glass-filter), blur(48px) saturate(180%);
-          border: 1px solid rgba(255, 255, 255, 0.6);
-          box-shadow: 0 10px 30px rgba(2, 62, 138, 0.12),
+          max-width: 1040px;
+          padding: 8px 24px;
+          background: rgba(250, 248, 245, 0.85);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border: 1px solid rgba(28, 25, 23, 0.1);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05),
                       inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
@@ -315,7 +362,7 @@ export default function Navbar() {
           align-items: center;
           gap: 12px;
           text-decoration: none;
-          color: var(--deep-twilight, #03045e);
+          color: #18181b;
           font-family: var(--font-head), 'Poppins', sans-serif;
           font-weight: 700;
           font-size: 17px;
@@ -328,7 +375,7 @@ export default function Navbar() {
         }
 
         .nav-logo-img {
-          height: 56px;
+          height: 40px;
           width: auto;
           object-fit: contain;
           display: block;
@@ -336,7 +383,7 @@ export default function Navbar() {
         }
 
         .glass-navbar.scrolled .nav-logo-img {
-          height: 44px;
+          height: 34px;
         }
 
         /* Navigation Links */
@@ -356,7 +403,7 @@ export default function Navbar() {
 
         .nav-link {
           text-decoration: none;
-          color: var(--gray-700, #2d4a5c);
+          color: #2d4a5c;
           font-size: 14.5px;
           font-weight: 500;
           padding: 8px 16px;
@@ -366,17 +413,17 @@ export default function Navbar() {
         }
 
         .nav-link:hover {
-          color: var(--french-blue, #023e8a);
-          background: rgba(2, 62, 138, 0.06);
+          color: #0077b6;
+          background: rgba(0, 119, 182, 0.06);
         }
 
         .nav-link.active {
-          color: var(--french-blue, #023e8a);
+          color: #023e8a;
           font-weight: 600;
-          background: rgba(2, 62, 138, 0.08);
+          background: rgba(0, 119, 182, 0.08);
         }
 
-        /* Premium CTA Button with Liquid Glass aesthetic */
+        /* Premium Ocean Blue Pill Button */
         .cta-button-glass {
           text-decoration: none;
           display: inline-flex;
@@ -387,10 +434,10 @@ export default function Navbar() {
           font-size: 14px;
           font-weight: 600;
           color: #ffffff !important;
-          background: var(--grad-main, linear-gradient(135deg, #023e8a 0%, #00b4d8 100%));
+          background: linear-gradient(135deg, #023e8a 0%, #0077b6 100%);
           border: 1px solid rgba(255, 255, 255, 0.3);
-          box-shadow: 0 4px 20px rgba(0, 119, 182, 0.25),
-                      inset 0 1.5px 0 rgba(255, 255, 255, 0.35);
+          box-shadow: 0 4px 18px rgba(0, 119, 182, 0.28),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.3);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
@@ -398,9 +445,9 @@ export default function Navbar() {
 
         .cta-button-glass:hover {
           transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 8px 30px rgba(0, 119, 182, 0.4),
-                      inset 0 1.5px 0 rgba(255, 255, 255, 0.5);
+          box-shadow: 0 8px 28px rgba(0, 119, 182, 0.45);
           color: #ffffff !important;
+          background: linear-gradient(135deg, #03045e 0%, #0096c7 100%);
         }
 
         .nav-links .cta-button-glass {

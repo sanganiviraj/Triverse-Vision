@@ -65,7 +65,7 @@ export default function CustomCursor() {
     <>
       {/* Small Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-bright-teal rounded-full pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 w-2 h-2 bg-stone-900 rounded-full pointer-events-none z-[9999]"
         style={{
           x: dotXSpring,
           y: dotYSpring,
@@ -75,12 +75,12 @@ export default function CustomCursor() {
       />
       {/* Large Ring */}
       <motion.div
-        className="fixed top-0 left-0 border-[1.5px] border-turquoise-surf rounded-full pointer-events-none z-[9998] flex items-center justify-center"
+        className="fixed top-0 left-0 border-[1.5px] border-stone-800 rounded-full pointer-events-none z-[9998] flex items-center justify-center"
         animate={{
           width: isHovered ? 56 : 36,
           height: isHovered ? 56 : 36,
-          borderColor: isHovered ? '#0096c7' : '#00b4d8',
-          backgroundColor: isHovered ? 'rgba(0, 150, 199, 0.05)' : 'rgba(0, 150, 199, 0)',
+          borderColor: isHovered ? '#18181b' : '#71717a',
+          backgroundColor: isHovered ? 'rgba(24, 24, 27, 0.06)' : 'rgba(24, 24, 27, 0)',
         }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
         style={{

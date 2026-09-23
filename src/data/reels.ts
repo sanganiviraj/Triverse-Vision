@@ -1,34 +1,66 @@
 export const reelsData = [
   {
     id: 0,
-    title: "Motivational Brand Reel",
-    desc: "Cinematic personal brand storytelling",
+    title: "Verritas — Maternal & Infant Care",
+    desc: "Empathetic healthcare and maternal guidance storytelling",
     tag: "Brand Story",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/%E0%AA%A4%E0%AA%AE%E0%AB%87_%E0%AA%A7%E0%AA%BE%E0%AA%B0%E0%AB%8B_%E0%AA%8F_%E0%AA%AC%E0%AA%A7%E0%AB%81%E0%AA%82_%E0%AA%A5%E0%AA%88_%E0%AA%B6%E0%AA%95%E0%AB%87_%E0%AA%9B%E0%AB%87_%E0%AA%AC%E0%AA%B8_%E0%AA%AA%E0%AB%82%E0%AA%B0%E0%AA%BE_%E0%AA%B5%E0%AA%BF%E0%AA%B6%E0%AB%8D%E0%AA%B5%E0%AA%BE%E0%AA%B8_%E0%AA%85%E0%AA%A8%E0%AB%87_%E0%AA%A6%E0%AA%BF%E0%AA%B2_%E0%AA%A5%E0%AB%80_%E0%AA%95%E0%AA%BE%E0%AA%B0%E0%AB%8D%E0%AA%AF_%E0%AA%95%E0%AA%B0%E0%AB%8B_%E0%AA%B8%E0%AA%AB%E0%AA%B3_%E0%AA%9C_%E0%AA%9C%E0%AA%BE%E0%AA%B6%E0%AB%87.._%EF%B8%8F_kesvik_stories_mtdd6v.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto/v1775283950/%E0%AA%A4%E0%AA%AE%E0%AB%87_%E0%AA%A7%E0%AA%BE%E0%AA%B0%E0%AB%8B_%E0%AA%8F_%E0%AA%AC%E0%AA%A7%E0%AB%81%E0%AA%82_%E0%AA%A5%E0%AA%88_%E0%AA%B6%E0%AA%95%E0%AB%87_%E0%AA%9B%E0%AB%87_%E0%AA%AC%E0%AA%B8_%E0%AA%AA%E0%AB%82%E0%AA%B0%E0%AA%BE_%E0%AA%B5%E0%AA%BF%E0%AA%B6%E0%AB%8D%E0%AA%B5%E0%AA%BE%E0%AA%B8_%E0%AA%85%E0%AA%A8%E0%AB%87_%E0%AA%A6%E0%AA%BF%E0%AA%B2_%E0%AA%A5%E0%AB%80_%E0%AA%95%E0%AA%BE%E0%AA%B0%E0%AB%8D%E0%AA%AF_%E0%AA%95%E0%AA%B0%E0%AB%8B_%E0%AA%B8%E0%AA%AB%E0%AA%B3_%E0%AA%9C_%E0%AA%9C%E0%AA%BE%E0%AA%B6%E0%AB%87.._%EF%B8%8F_kesvik_stories_mtdd6v.mp4"
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790057815/04-08_Verritas_Breast_Feeding_xwc6rv.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790057815/04-08_Verritas_Breast_Feeding_xwc6rv.mp4"
   },
   {
     id: 1,
-    title: "Skincare Transformation",
-    desc: "Trust-building product content",
-    tag: "Skincare",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1775670178/Pimple_Daagh_1_frzzcg.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto/v1775670178/Pimple_Daagh_1_frzzcg.mp4"
+    title: "Vijvik Toys — UGC Experience",
+    desc: "Engaging UGC toy demonstration and product review",
+    tag: "UGC",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058850/Jenish_Vijvik_Toys_uudfvj.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058850/Jenish_Vijvik_Toys_uudfvj.mp4"
   },
   {
     id: 2,
-    title: "3 Books to Dentistry King",
-    desc: "Viral educational niche reel",
-    tag: "Education",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1775669597/3_Books_to_become_Dentistry_king_1_uh4geo.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto/v1775669597/3_Books_to_become_Dentistry_king_1_uh4geo.mp4"
+    title: "Cultural Journey & Narrative",
+    desc: "High-retention personal and cultural storytelling",
+    tag: "Brand Story",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_1/v1790060308/SaveClip.App_AQMv157mL6idWHevalof4AjKMTmV83RcGsllvueOsSSki4vs7g8t_c4ZPM_crQ107vy8LDvaZ22mV-akgewnyEUgORZvGhFUt1oPaFM_1_wc4rai.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790060308/SaveClip.App_AQMv157mL6idWHevalof4AjKMTmV83RcGsllvueOsSSki4vs7g8t_c4ZPM_crQ107vy8LDvaZ22mV-akgewnyEUgORZvGhFUt1oPaFM_1_wc4rai.mp4"
   },
   {
     id: 3,
-    title: "AI Avatar Video",
-    desc: "Face + voice cloning demo",
-    tag: "AI Clone",
-    img: "/assets/sampleimage.png",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto/v1775669495/New_Project_6_1EA079D_q91u0a.mp4"
+    title: "Commonwealth — UGC Growth Story",
+    desc: "Organic UGC story with real-life community narrative",
+    tag: "UGC",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058867/30-7_MohitBhai_Common_Wealth_obgxtw.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058867/30-7_MohitBhai_Common_Wealth_obgxtw.mp4"
+  },
+  {
+    id: 4,
+    title: "Red & White Multimedia",
+    desc: "High-retention skill accelerator & leadership",
+    tag: "Brand Story",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058885/21-08_Nikunjbhai_Red_white_skill_lu2nbi.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058885/21-08_Nikunjbhai_Red_white_skill_lu2nbi.mp4"
+  },
+  {
+    id: 5,
+    title: "Custom Pieces — Bespoke Craft",
+    desc: "Handcrafted luxury design and bespoke craftsmanship",
+    tag: "Brand Story",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058830/23-7_Custom_Pieces_ewpkmw.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058830/23-7_Custom_Pieces_ewpkmw.mp4"
+  },
+  {
+    id: 6,
+    title: "Verritas — Everyday Baby Routine",
+    desc: "Gentle daily routine lifestyle narrative",
+    tag: "Brand Story",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058858/14-09_Verritas_Baby_Routin_jsrdqi.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058858/14-09_Verritas_Baby_Routin_jsrdqi.mp4"
+  },
+  {
+    id: 7,
+    title: "Campus Life — Student Experience",
+    desc: "Authentic student community UGC reel",
+    tag: "UGC",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058850/12-08_Mohit_school_video_zpd2ub.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058850/12-08_Mohit_school_video_zpd2ub.mp4"
   }
 ];

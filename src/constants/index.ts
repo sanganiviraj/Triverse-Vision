@@ -1,11 +1,14 @@
 export const SITE_CONFIG = {
   name: 'Triverse Vision',
   description: 'Triverse Vision crafts cinematic reels, brand films, and social content that transforms founders into global authorities.',
-  email: 'hello@triversevision.com',
+  email: 'triversevision@gmail.com',
+  phone: '+91 82387 87327',
+  address: '507, Karma Business Center, Yamuna Chowk, Mota Varachha, Surat',
   socials: {
     linkedin: 'https://www.linkedin.com/in/triverse-vision-ba2026413/',
     instagram: 'https://www.instagram.com/triverse.vision/',
     facebook: 'https://www.facebook.com/profile.php?id=61592906851894',
+    whatsapp: 'https://wa.me/918238787327',
   }
 };
 
