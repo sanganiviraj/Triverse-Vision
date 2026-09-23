@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import FadeIn from '@/components/common/FadeIn';
@@ -12,6 +12,16 @@ export default function PortfolioPage() {
   const [likedItems, setLikedItems] = useState<Record<string, boolean>>({});
   const [playingReelId, setPlayingReelId] = useState<string | null>(null);
   const [showAllReels, setShowAllReels] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Filtered items based on category
   const filteredItems = PORTFOLIO_ITEMS.filter((item) => {
@@ -21,9 +31,9 @@ export default function PortfolioPage() {
     return true;
   });
 
-  const MAX_REELS_DEFAULT = 6;
-  const displayedItems = showAllReels ? filteredItems : filteredItems.slice(0, MAX_REELS_DEFAULT);
-  const hasMoreReels = filteredItems.length > MAX_REELS_DEFAULT;
+  const maxReelsDefault = isMobile ? 3 : 6;
+  const displayedItems = showAllReels ? filteredItems : filteredItems.slice(0, maxReelsDefault);
+  const hasMoreReels = filteredItems.length > maxReelsDefault;
 
   const handleCategoryChange = (category: 'all' | 'ugc' | 'brand') => {
     setFilterCategory(category);
@@ -100,7 +110,11 @@ export default function PortfolioPage() {
                 className={`type-tab ${filterCategory === 'all' ? 'active' : ''}`}
                 onClick={() => handleCategoryChange('all')}
               >
-                All Reels <span className="tab-count">({PORTFOLIO_ITEMS.length})</span>
+                <span className="tab-title">
+                  <span className="title-full">All Reels</span>
+                  <span className="title-short">All</span>
+                </span>
+                <span className="tab-count">({PORTFOLIO_ITEMS.length})</span>
               </button>
               <button
                 className={`type-tab ${filterCategory === 'ugc' ? 'active' : ''}`}
@@ -112,7 +126,11 @@ export default function PortfolioPage() {
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                   <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
-                UGC Videos <span className="tab-count">({PORTFOLIO_ITEMS.filter(i => i.category === 'UGC').length})</span>
+                <span className="tab-title">
+                  <span className="title-full">UGC Videos</span>
+                  <span className="title-short">UGC</span>
+                </span>
+                <span className="tab-count">({PORTFOLIO_ITEMS.filter(i => i.category === 'UGC').length})</span>
               </button>
               <button
                 className={`type-tab ${filterCategory === 'brand' ? 'active' : ''}`}
@@ -122,7 +140,11 @@ export default function PortfolioPage() {
                   <rect x="3" y="3" width="18" height="18" rx="4" />
                   <polygon points="10 12 15 15 10 18 10 12" fill="currentColor" />
                 </svg>
-                Brand Stories <span className="tab-count">({PORTFOLIO_ITEMS.filter(i => i.category === 'Brand Story').length})</span>
+                <span className="tab-title">
+                  <span className="title-full">Brand Stories</span>
+                  <span className="title-short">Brand</span>
+                </span>
+                <span className="tab-count">({PORTFOLIO_ITEMS.filter(i => i.category === 'Brand Story').length})</span>
               </button>
             </div>
           </div>
@@ -132,7 +154,7 @@ export default function PortfolioPage() {
       {/* ── 3. Creative Grid: Reels & Posts ─────────────── */}
       <section id="portfolio-reels" className="portfolio-grid-section">
         <div className="container">
-          <div className="portfolio-feed-grid">
+          <div className={`portfolio-feed-grid ${!showAllReels ? 'collapse-mobile' : ''}`}>
             {displayedItems.map((item, idx) => {
               const isLiked = !!likedItems[item.id];
 
@@ -403,7 +425,7 @@ export default function PortfolioPage() {
                       });
                     }}
                   >
-                    {/* Floating Speech Bubble Tag (@coplin or @andrea) */}
+                    {/* Floating Speech Bubble Tag (@gujrat.tunes or @kesvik.stories) */}
                     {post.authorTag && (
                       <div
                         className="masterpiece-speech-tag"
@@ -437,6 +459,15 @@ export default function PortfolioPage() {
 
           {/* Subtitle Under Cards */}
           <FadeIn direction="up" delay={0.2} className="masterpiece-footer">
+            <div className="masterpiece-swipe-hint">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>Swipe to explore {MASTERPIECE_POSTS.length} posts</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
             <p className="masterpiece-subtext">
               High-converting carousel graphics, editorial feed posts, and bespoke visual identity systems crafted to build founder authority and turn scrollers into brand advocates.
             </p>
@@ -654,6 +685,14 @@ export default function PortfolioPage() {
           border-radius: 999px;
           background: #f0f7fc;
           border: 1px solid rgba(0, 119, 182, 0.16);
+          max-width: 100%;
+          overflow-x: auto;
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .portfolio-type-tabs::-webkit-scrollbar {
+          display: none;
         }
 
         .type-tab {
@@ -669,6 +708,8 @@ export default function PortfolioPage() {
           background: transparent;
           cursor: pointer;
           transition: all 0.25s ease;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .type-tab.active {
@@ -680,6 +721,19 @@ export default function PortfolioPage() {
         .tab-count {
           font-size: 0.8rem;
           opacity: 0.7;
+        }
+
+        .tab-title {
+          display: inline-flex;
+          align-items: center;
+        }
+
+        .title-short {
+          display: none;
+        }
+
+        .title-full {
+          display: inline;
         }
 
         /* ── Feed Grid ────────────────────────────── */
@@ -1420,12 +1474,32 @@ export default function PortfolioPage() {
 
         @media (max-width: 768px) {
           .masterpiece-heading {
-            font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+            font-size: clamp(1.15rem, 5.4vw, 1.85rem);
             gap: 4px;
-            line-height: 1.2;
+            line-height: 1.25;
+            text-align: center;
           }
           .masterpiece-heading-line {
-            white-space: normal;
+            white-space: nowrap;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .masterpiece-heading {
+            font-size: clamp(1.02rem, 5.3vw, 1.45rem);
+            gap: 3px;
+          }
+          .masterpiece-heading-line {
+            white-space: nowrap;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .masterpiece-heading {
+            font-size: 0.95rem;
+          }
+          .masterpiece-heading-line {
+            white-space: nowrap;
           }
         }
 
@@ -1529,9 +1603,14 @@ export default function PortfolioPage() {
           margin: 0;
           line-height: 1.3;
           font-family: var(--font-head), 'Poppins', sans-serif;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
-        /* Floating speech bubbles like @coplin and @andrea from screenshot */
+        /* Floating speech bubbles like @gujrat.tunes and @kesvik.stories from screenshot */
         .masterpiece-speech-tag {
           position: absolute;
           top: -52px;
@@ -1585,33 +1664,115 @@ export default function PortfolioPage() {
           margin: 0;
         }
 
+        .masterpiece-swipe-hint {
+          display: none;
+        }
+
         @media (max-width: 900px) {
           .masterpiece-deck-container {
             overflow-x: auto;
+            overflow-y: visible;
             justify-content: flex-start;
-            padding: 70px 24px 30px;
+            padding: 55px 24px 22px;
+            margin: 0 calc(-1 * clamp(24px, 3.5vw, 48px));
             scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+            scroll-padding: 0 24px;
           }
+
           .masterpiece-deck-container::-webkit-scrollbar {
             display: none;
           }
+
           .masterpiece-cards-wrapper {
-            margin: 0 auto;
-            min-height: 360px;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 16px;
+            width: max-content;
+            margin: 0;
+            min-height: auto;
+            padding: 0 4px;
           }
+
           .masterpiece-card-item {
-            width: 175px;
-            margin: 0 -16px;
+            position: relative;
+            width: clamp(230px, 72vw, 280px) !important;
+            aspect-ratio: 4 / 5 !important;
+            margin: 0 !important;
+            flex-shrink: 0;
+            transform: none !important;
+            scroll-snap-align: center;
+            border-radius: 24px;
+          }
+
+          .masterpiece-card-item:hover {
+            transform: none !important;
+          }
+
+          .masterpiece-card-inner {
+            border-radius: 24px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
+          }
+
+          .masterpiece-card-overlay {
+            opacity: 1 !important;
+            background: linear-gradient(to top, rgba(3, 4, 94, 0.9) 0%, rgba(3, 4, 94, 0.4) 48%, transparent 100%);
+            padding: 16px;
+          }
+
+          .masterpiece-card-badge {
+            font-size: 10px;
+            padding: 3px 9px;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+          }
+
+          .masterpiece-card-name {
+            font-size: 0.95rem;
+            line-height: 1.25;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          }
+
+          .masterpiece-speech-tag {
+            top: -42px;
+            font-size: 0.8rem;
+            padding: 6px 14px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+          }
+
+          .masterpiece-swipe-hint {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 16px;
+            padding: 7px 18px;
+            border-radius: 999px;
+            background: rgba(0, 119, 182, 0.06);
+            border: 1px solid rgba(0, 119, 182, 0.16);
+            color: #0077b6;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+          }
+
+          .masterpiece-subtext {
+            font-size: 0.92rem;
+            padding: 0 12px;
           }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
           .masterpiece-card-item {
-            width: 145px;
-            margin: 0 -12px;
+            width: 240px !important;
           }
-          .masterpiece-card-inner {
-            border-radius: 20px;
+
+          .masterpiece-deck-container {
+            padding: 50px 16px 18px;
           }
         }
 
@@ -1640,16 +1801,61 @@ export default function PortfolioPage() {
             max-width: 420px;
             margin: 0 auto;
           }
+          .portfolio-feed-grid.collapse-mobile .portfolio-grid-item:nth-child(n+4) {
+            display: none !important;
+          }
           .portfolio-metrics-bar {
             display: none;
           }
-          .portfolio-type-tabs {
-            flex-direction: column;
+          .portfolio-filter-container {
+            margin-top: 24px;
             width: 100%;
+            max-width: 440px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          .portfolio-type-tabs {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            align-items: center;
+            justify-content: stretch;
+            padding: 4px;
+            gap: 4px;
+            border-radius: 999px;
+            background: #f0f7fc;
+            border: 1px solid rgba(0, 119, 182, 0.16);
+            box-sizing: border-box;
           }
           .type-tab {
-            width: 100%;
+            flex: 1 1 0px;
+            min-width: 0;
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
+            padding: 9px 4px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            gap: 5px;
+            white-space: nowrap;
+          }
+          .type-tab svg {
+            width: 13px;
+            height: 13px;
+            flex-shrink: 0;
+          }
+          .title-full {
+            display: none;
+          }
+          .title-short {
+            display: inline;
+          }
+          .tab-count {
+            font-size: 0.74rem;
+            opacity: 0.7;
           }
           .portfolio-cta-card {
             padding: 40px 20px;
@@ -1663,6 +1869,25 @@ export default function PortfolioPage() {
           .portfolio-btn-secondary {
             width: 100%;
             justify-content: center;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .portfolio-type-tabs {
+            padding: 3px;
+            gap: 2px;
+          }
+          .type-tab {
+            padding: 7px 2px;
+            font-size: 0.72rem;
+            gap: 3px;
+          }
+          .type-tab svg {
+            width: 11px;
+            height: 11px;
+          }
+          .tab-count {
+            font-size: 0.68rem;
           }
         }
       `}</style>

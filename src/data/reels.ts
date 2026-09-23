@@ -62,5 +62,22 @@ export const reelsData = [
     tag: "UGC",
     img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058850/12-08_Mohit_school_video_zpd2ub.jpg",
     video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058850/12-08_Mohit_school_video_zpd2ub.mp4"
+  },
+  {
+    id: 8,
+    title: "Aeris Jewellery — UGC Showcase",
+    desc: "Bridal craftsmanship and fine jewelry creator narrative",
+    tag: "UGC",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790161629/aeris1_xjat2l.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790161629/aeris1_xjat2l.mp4"
+  },
+  {
+    id: 9,
+    title: "Aeris Studio — UGC Creator Story",
+    desc: "Authentic creator conversation and lifestyle UGC",
+    tag: "UGC",
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790161824/aeris22_sb36f2.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790161824/aeris22_sb36f2.mp4"
   }
 ];
+
