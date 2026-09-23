@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Navbar, Footer } from "@/components/layout";
 import SmoothScroller from "@/components/common/SmoothScroller";
@@ -15,6 +15,13 @@ const poppins = Poppins({
   variable: "--font-head",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -98,7 +105,7 @@ export default function RootLayout({
           });
         ` }} />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} antialiased`}>
+      <body className={`${inter.variable} ${poppins.variable} ${playfair.variable} antialiased`} suppressHydrationWarning>
         {/* Preloader & Cursor outside of SmoothScroller */}
         <Preloader />
         <CustomCursor />

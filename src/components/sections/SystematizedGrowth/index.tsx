@@ -52,7 +52,7 @@ const steps = [
 
 export default function SystematizedGrowth() {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"]
@@ -69,7 +69,7 @@ export default function SystematizedGrowth() {
       <div className="container">
         {/* Header Section */}
         <div className="growth-header">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -77,8 +77,8 @@ export default function SystematizedGrowth() {
           >
             Systematized Growth
           </motion.div>
-          
-          <motion.h2 
+
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
@@ -86,8 +86,8 @@ export default function SystematizedGrowth() {
           >
             Our Proven <span className="text-gradient">Personal Branding Agency Protocol</span>
           </motion.h2>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -101,22 +101,22 @@ export default function SystematizedGrowth() {
         <div className="growth-timeline-wrapper">
           {/* Vertical Timeline Line - Desktop */}
           <div className="growth-line-bg hidden-mobile" />
-          <motion.div 
+          <motion.div
             className="growth-line-fill hidden-mobile"
             style={{ scaleY, x: "-50%" }}
           />
 
           {/* Vertical Timeline Line - Mobile Progress Bar */}
           <div className="growth-mobile-line-bg mobile-only" />
-          <motion.div 
+          <motion.div
             className="growth-mobile-line-fill mobile-only"
             style={{ scaleY }}
           />
 
           <div className="growth-steps">
             {steps.map((step, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 className={`growth-step-row ${index % 2 === 0 ? 'row-normal' : 'row-reverse'}`}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -153,8 +153,8 @@ export default function SystematizedGrowth() {
 
                       {/* Embedded Image Preview for Mobile View */}
                       <div className="growth-card-mobile-image mobile-only" style={{ position: 'relative' }}>
-                        <Image 
-                          src={step.image} 
+                        <Image
+                          src={step.image}
                           alt={step.title}
                           fill
                           sizes="(max-width: 768px) 100vw, 50vw"
@@ -168,7 +168,7 @@ export default function SystematizedGrowth() {
 
                 {/* Center Circle */}
                 <div className="growth-dot-wrapper hidden-mobile">
-                  <motion.div 
+                  <motion.div
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
@@ -186,8 +186,8 @@ export default function SystematizedGrowth() {
                     className="growth-image-wrapper"
                     style={{ position: 'relative' }}
                   >
-                    <Image 
-                      src={step.image} 
+                    <Image
+                      src={step.image}
                       alt={step.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"

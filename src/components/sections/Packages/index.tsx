@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import FadeIn from '@/components/common/FadeIn';
+import { Icons } from '@/components/common/Icons';
 
 interface FeatureItem {
   text: string;
@@ -17,8 +18,6 @@ interface PackageTier {
   subtitle: string;
   description: string;
   features: FeatureItem[];
-  price8: string;
-  price15: string;
   isPopular?: boolean;
 }
 
@@ -40,8 +39,6 @@ const PACKAGES: PackageTier[] = [
       { text: 'Video Shooting (On-site / Remote)', included: false },
       { text: 'Social Media Management & Posting', included: false },
     ],
-    price8: '₹11,999',
-    price15: '₹20,999',
   },
   {
     id: 'editing-scripting',
@@ -61,8 +58,6 @@ const PACKAGES: PackageTier[] = [
       { text: 'Remote Video Shooting', included: false },
       { text: 'Full Social Media Handling & Posting', included: false },
     ],
-    price8: '₹15,999',
-    price15: '₹23,999',
   },
   {
     id: 'complete-management',
@@ -80,32 +75,11 @@ const PACKAGES: PackageTier[] = [
       { text: 'Cinematic Editing, Color Grading & Sound Design', included: true },
       { text: 'Monthly Performance Analytics & Growth Strategy', included: true },
     ],
-    price8: '₹18,999',
-    price15: '₹25,999',
   },
 ];
 
 export default function Packages() {
   const [selectedPlan, setSelectedPlan] = useState<'8' | '15'>('8');
-
-  const handleSelectPackage = (e: React.MouseEvent, packageId: string) => {
-    e.preventDefault();
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('select-package', { detail: { packageId } }));
-      const contactElem = document.getElementById('contact');
-      if (contactElem) {
-        const header = document.querySelector('.glass-navbar');
-        const headerOffset = header ? header.getBoundingClientRect().height : 90;
-        const elementPosition = contactElem.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    }
-  };
 
   return (
     <section id="packages" className="packages-section section">
@@ -123,7 +97,7 @@ export default function Packages() {
           </FadeIn>
           <FadeIn direction="up" delay={0.15}>
             <p className="packages-subtitle">
-              Clear feature breakdown: see exactly what is included vs excluded in each tier so you can choose the perfect fit for your personal brand.
+              Clear deliverable breakdown: see exactly what is included vs excluded in each tier. Click Continue on any package to receive tailored pricing and details directly on WhatsApp.
             </p>
           </FadeIn>
 
@@ -151,7 +125,9 @@ export default function Packages() {
         {/* Pricing Cards Grid */}
         <div className="packages-grid">
           {PACKAGES.map((pkg, index) => {
-            const currentPrice = selectedPlan === '8' ? pkg.price8 : pkg.price15;
+            const whatsappMessage = `Hi Triverse Vision! I am interested in the ${pkg.name} (${selectedPlan} Reels Plan). Could you please share the pricing and package details with me?`;
+            const whatsappUrl = `https://wa.me/918238787327?text=${encodeURIComponent(whatsappMessage)}`;
+
             return (
               <FadeIn
                 key={pkg.id}
@@ -172,18 +148,26 @@ export default function Packages() {
                   <p className="pkg-desc">{pkg.description}</p>
                 </div>
 
-                {/* Price Display */}
-                <div className="pkg-price-box">
-                  <div className="pkg-price-main">
-                    <span className="pkg-price-amount">{currentPrice}</span>
-                    <span className="pkg-price-period">/ {selectedPlan} Reels</span>
-                  </div>
-                  <div className="pkg-price-breakdown">
-                    <span className={`breakdown-chip ${selectedPlan === '8' ? 'chip-active' : ''}`}>
-                      8 Reels: <strong>{pkg.price8}</strong>
+                {/* Deliverable Scope & Pricing on Request Box */}
+                <div className="pkg-scope-box">
+                  <div className="pkg-scope-header">
+                    <div className="pkg-scope-deliverable">
+                      <span className="pkg-scope-count">{selectedPlan} Reels</span>
+                      <span className="pkg-scope-cycle">/ Month</span>
+                    </div>
+                    <span className="pkg-scope-quote-badge">
+                      Pricing on Request
                     </span>
-                    <span className={`breakdown-chip ${selectedPlan === '15' ? 'chip-active' : ''}`}>
-                      15 Reels: <strong>{pkg.price15}</strong>
+                  </div>
+                  <p className="pkg-scope-hint">
+                    Tailored quote customized for your brand vision & production requirements.
+                  </p>
+                  <div className="pkg-scope-chips">
+                    <span className={`pkg-chip ${selectedPlan === '8' ? 'pkg-chip--active' : ''}`}>
+                      8 Reels Plan
+                    </span>
+                    <span className={`pkg-chip ${selectedPlan === '15' ? 'pkg-chip--active' : ''}`}>
+                      15 Reels Plan
                     </span>
                   </div>
                 </div>
@@ -221,14 +205,18 @@ export default function Packages() {
                   </ul>
                 </div>
 
-                {/* CTA Button */}
+                {/* Continue to WhatsApp Button */}
                 <div className="pkg-cta-wrap">
                   <a
-                    href="#contact"
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={`pkg-cta-btn ${pkg.isPopular ? 'pkg-cta-btn--primary' : 'pkg-cta-btn--secondary'}`}
-                    onClick={(e) => handleSelectPackage(e, pkg.id)}
+                    aria-label={`Continue to WhatsApp for pricing on ${pkg.name}`}
                   >
-                    Get Started
+                    <Icons.WhatsApp style={{ width: 19, height: 19, marginRight: 8, display: 'inline-block', verticalAlign: 'middle' }} />
+                    <span>Continue</span>
+                    <Icons.ArrowRight style={{ width: 16, height: 16, marginLeft: 8, display: 'inline-block', verticalAlign: 'middle' }} />
                   </a>
                 </div>
               </FadeIn>
@@ -252,7 +240,13 @@ export default function Packages() {
               Please let us know which package suits your requirement, or if you'd like to schedule a quick discussion to understand your goals better. Looking forward to working together.
             </p>
             <div className="banner-actions">
-              <a href="#contact" className="banner-btn banner-btn--primary">
+              <a
+                href={`https://wa.me/918238787327?text=${encodeURIComponent("Hi Triverse Vision! I'd like to schedule a quick discussion to understand packages and pricing for my brand.")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="banner-btn banner-btn--primary"
+              >
+                <Icons.WhatsApp style={{ width: 18, height: 18, marginRight: 8, display: 'inline-block', verticalAlign: 'middle' }} />
                 Schedule a Quick Discussion
               </a>
               <a href="#contact" className="banner-btn banner-btn--outline">
@@ -473,59 +467,89 @@ export default function Packages() {
           min-height: 64px;
         }
 
-        .pkg-price-box {
-          background: #eef6fb;
+        .pkg-scope-box {
+          background: linear-gradient(135deg, #f0f7fc 0%, #e8f4fb 100%);
           border-radius: 20px;
-          padding: 20px;
+          padding: 18px 20px;
           margin-bottom: 24px;
-          border: 1px solid rgba(0, 119, 182, 0.08);
-          min-height: 114px;
+          border: 1px solid rgba(0, 119, 182, 0.12);
           display: flex;
           flex-direction: column;
-          justify-content: center;
+          gap: 10px;
         }
 
-        .pkg-price-main {
+        .pkg-scope-header {
           display: flex;
-          align-items: baseline;
-          gap: 6px;
-          margin-bottom: 10px;
-        }
-
-        .pkg-price-amount {
-          font-size: 36px;
-          font-weight: 800;
-          color: #023e8a;
-          letter-spacing: -1px;
-          font-family: var(--font-head), 'Poppins', sans-serif;
-        }
-
-        .pkg-price-period {
-          font-size: 14px;
-          font-weight: 600;
-          color: #2d4a5c;
-        }
-
-        .pkg-price-breakdown {
-          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
           gap: 8px;
         }
 
-        .breakdown-chip {
+        .pkg-scope-deliverable {
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+        }
+
+        .pkg-scope-count {
+          font-size: 26px;
+          font-weight: 800;
+          color: #023e8a;
+          letter-spacing: -0.5px;
+          font-family: var(--font-head), 'Poppins', sans-serif;
+        }
+
+        .pkg-scope-cycle {
+          font-size: 14px;
+          font-weight: 600;
+          color: #0077b6;
+        }
+
+        .pkg-scope-quote-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          background: #00b4d8;
+          color: #ffffff;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 4px 10px;
+          border-radius: 100px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          box-shadow: 0 2px 8px rgba(0, 180, 216, 0.25);
+        }
+
+        .pkg-scope-hint {
+          font-size: 12.5px;
+          color: #2d4a5c;
+          line-height: 1.45;
+          margin: 0;
+        }
+
+        .pkg-scope-chips {
+          display: flex;
+          gap: 8px;
+          margin-top: 2px;
+        }
+
+        .pkg-chip {
           font-size: 11px;
           padding: 4px 10px;
           border-radius: 100px;
           background: #ffffff;
           color: #2d4a5c;
           border: 1px solid #d6eaf4;
+          font-weight: 500;
           transition: all 0.3s;
         }
 
-        .breakdown-chip.chip-active {
+        .pkg-chip--active {
           border-color: #00b4d8;
           background: #caf0f8;
           color: #023e8a;
-          font-weight: 600;
+          font-weight: 700;
         }
 
         .pkg-features {

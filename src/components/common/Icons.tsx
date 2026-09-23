@@ -11,7 +11,9 @@ import {
   X,
   Check,
   ChevronRight,
-  Mail
+  Mail,
+  Phone,
+  MapPin,
 } from 'lucide-react';
 
 export const Icons = {
@@ -28,8 +30,15 @@ export const Icons = {
   Check,
   ChevronRight,
   Mail,
+  Phone,
+  MapPin,
 
   // Custom SVG Icons (for icons not in lucide-react or brand icons)
+  WhatsApp: (props: React.SVGProps<SVGSVGElement>) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M12.031 2C6.511 2 2.025 6.486 2.025 12.006c0 1.83.498 3.551 1.365 5.034L2 22l5.127-1.344a9.96 9.96 0 0 0 4.904 1.282c5.52 0 10.006-4.486 10.006-10.006C22.037 6.486 17.551 2 12.031 2zm5.834 14.28c-.244.685-1.42 1.31-1.956 1.36-.51.047-1.173.067-3.791-.976-3.344-1.324-5.467-4.757-5.633-4.978-.163-.22-1.336-1.78-1.336-3.4 0-1.62.85-2.417 1.15-2.735.3-.318.654-.398.871-.398.217 0 .435.002.626.012.203.01.474-.078.74.564.275.662.934 2.285 1.015 2.45.08.164.135.358.026.577-.108.22-.163.358-.326.549-.163.19-.344.425-.49.57-.164.164-.336.342-.144.672.19.33.847 1.4 1.817 2.264 1.25 1.114 2.304 1.458 2.632 1.622.327.164.518.137.708-.082.191-.22.817-.954 1.035-1.282.217-.328.435-.273.734-.163.3.11 1.905.898 2.232 1.062.327.163.545.245.626.382.082.136.082.791-.162 1.476z"/>
+    </svg>
+  ),
   Instagram: (props: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>

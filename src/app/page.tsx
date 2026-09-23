@@ -1,6 +1,5 @@
 import { 
   Hero, 
-  MarqueeStrip,
   Work, 
   Services, 
   SystematizedGrowth,
@@ -12,7 +11,6 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <MarqueeStrip />
       <Work />
       <Services />
       <SystematizedGrowth />
