@@ -68,6 +68,9 @@ export const metadata: Metadata = {
       { url: '/assets/favicon_logo.png?v=4' },
     ],
   },
+  verification: {
+    google: 'googlebf38eb3db9651a3a',
+  },
 };
 
 export default function RootLayout({
