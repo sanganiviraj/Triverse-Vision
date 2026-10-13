@@ -185,7 +185,7 @@ export default function Footer() {
                 </a>
               </div>
               <p className="studio-address-text">
-                507, Karma Business Center, Yamuna Chowk, Mota Varachha, Surat
+                {SITE_CONFIG.address}
               </p>
             </div>
 

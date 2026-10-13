@@ -56,6 +56,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png' },
+      { url: '/assets/triverse_vision_logo.png', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-icon.png' },
+      { url: '/assets/triverse_vision_logo.png' },
+    ],
+  },
 };
 
 export default function RootLayout({

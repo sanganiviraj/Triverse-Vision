@@ -1,17 +1,175 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import FadeIn from '@/components/common/FadeIn';
 import { PORTFOLIO_ITEMS, PortfolioItem, MASTERPIECE_POSTS, MasterpiecePost } from '@/data/portfolio';
 
+/* ── REEL CARD WITH SHIMMER & PROGRESS LOADER ON HOVER ── */
+function PortfolioReelCard({
+  item,
+  onClick,
+}: {
+  item: PortfolioItem;
+  onClick: () => void;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (item.video) {
+      setIsVideoLoading(true);
+      setIsVideoPlaying(false);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setIsVideoLoading(false);
+    setIsVideoPlaying(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
+
+  return (
+    <div
+      className="ig-reel-card"
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Video / Poster View */}
+      <div className="ig-reel-media">
+        {/* Always keep Poster Image visible in background so there's never a blank blue void */}
+        <img
+          src={item.img}
+          alt={item.title}
+          className="ig-reel-poster"
+          loading="lazy"
+        />
+
+        {/* Video stream rendered on hover when video is available */}
+        {item.video && isHovered && (
+          <video
+            ref={videoRef}
+            src={item.video}
+            poster={item.img}
+            autoPlay
+            muted
+            loop
+            playsInline
+            onPlaying={() => {
+              setIsVideoLoading(false);
+              setIsVideoPlaying(true);
+            }}
+            onCanPlay={() => {
+              setIsVideoLoading(false);
+              setIsVideoPlaying(true);
+            }}
+            onWaiting={() => {
+              setIsVideoLoading(true);
+            }}
+            className={`ig-reel-video ${isVideoPlaying ? 'is-playing' : 'is-loading'}`}
+          />
+        )}
+
+        {/* Circular Progress & Shimmer Effect while buffering */}
+        {item.video && isHovered && isVideoLoading && (
+          <div className="ig-reel-loader-overlay">
+            <div className="ig-reel-shimmer-sweep" />
+            <div className="ig-reel-spinner-container">
+              <div className="ig-reel-spinner-track-wrap">
+                <svg className="ig-reel-spinner-svg" viewBox="0 0 44 44">
+                  <circle
+                    className="ig-reel-spinner-bg"
+                    cx="22"
+                    cy="22"
+                    r="18"
+                    fill="none"
+                    strokeWidth="3.5"
+                  />
+                  <circle
+                    className="ig-reel-spinner-accent"
+                    cx="22"
+                    cy="22"
+                    r="18"
+                    fill="none"
+                    strokeWidth="3.5"
+                    strokeDasharray="113"
+                    strokeDashoffset="35"
+                  />
+                </svg>
+                <span className="ig-reel-spinner-core-dot" />
+              </div>
+              <span className="ig-reel-spinner-label">Loading preview</span>
+            </div>
+          </div>
+        )}
+
+        {/* Top Ambient Badges */}
+        <div className="ig-reel-top-bar">
+          <span className="ig-reel-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <rect x="3" y="3" width="18" height="18" rx="4" />
+              <polygon points="10 12 15 15 10 18 10 12" fill="currentColor" />
+            </svg>
+            {item.category === 'UGC' ? 'UGC' : 'BRAND'}
+          </span>
+          {item.views && (
+            <span className="ig-reel-views">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              {item.views}
+            </span>
+          )}
+        </div>
+
+        {/* Bottom Reel Caption & Audio Overlay */}
+        <div className="ig-reel-bottom-info">
+          <div className="ig-reel-author-row">
+            <div className="ig-author-avatar-sm">TV</div>
+            <span className="ig-author-name">@{item.author.handle}</span>
+            <span className="ig-verified-badge" title="Verified Creator">✓</span>
+          </div>
+          <p className="ig-reel-caption-preview">{item.title}</p>
+          {item.audio && (
+            <div className="ig-reel-audio-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18V5l12-2v13" />
+                <circle cx="6" cy="18" r="3" />
+                <circle cx="18" cy="16" r="3" />
+              </svg>
+              <span>{item.audio}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PortfolioPage() {
   const [filterCategory, setFilterCategory] = useState<'all' | 'ugc' | 'brand'>('all');
   const [activeModalItem, setActiveModalItem] = useState<PortfolioItem | null>(null);
   const [likedItems, setLikedItems] = useState<Record<string, boolean>>({});
-  const [playingReelId, setPlayingReelId] = useState<string | null>(null);
   const [showAllReels, setShowAllReels] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Filtered items based on category
   const filteredItems = PORTFOLIO_ITEMS.filter((item) => {
@@ -21,9 +179,9 @@ export default function PortfolioPage() {
     return true;
   });
 
-  const MAX_REELS_DEFAULT = 6;
-  const displayedItems = showAllReels ? filteredItems : filteredItems.slice(0, MAX_REELS_DEFAULT);
-  const hasMoreReels = filteredItems.length > MAX_REELS_DEFAULT;
+  const maxReelsDefault = isMobile ? 3 : 6;
+  const displayedItems = showAllReels ? filteredItems : filteredItems.slice(0, maxReelsDefault);
+  const hasMoreReels = filteredItems.length > maxReelsDefault;
 
   const handleCategoryChange = (category: 'all' | 'ugc' | 'brand') => {
     setFilterCategory(category);
@@ -100,7 +258,11 @@ export default function PortfolioPage() {
                 className={`type-tab ${filterCategory === 'all' ? 'active' : ''}`}
                 onClick={() => handleCategoryChange('all')}
               >
-                All Reels <span className="tab-count">({PORTFOLIO_ITEMS.length})</span>
+                <span className="tab-title">
+                  <span className="title-full">All Reels</span>
+                  <span className="title-short">All</span>
+                </span>
+                <span className="tab-count">({PORTFOLIO_ITEMS.length})</span>
               </button>
               <button
                 className={`type-tab ${filterCategory === 'ugc' ? 'active' : ''}`}
@@ -112,7 +274,11 @@ export default function PortfolioPage() {
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                   <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                 </svg>
-                UGC Videos <span className="tab-count">({PORTFOLIO_ITEMS.filter(i => i.category === 'UGC').length})</span>
+                <span className="tab-title">
+                  <span className="title-full">UGC Videos</span>
+                  <span className="title-short">UGC</span>
+                </span>
+                <span className="tab-count">({PORTFOLIO_ITEMS.filter(i => i.category === 'UGC').length})</span>
               </button>
               <button
                 className={`type-tab ${filterCategory === 'brand' ? 'active' : ''}`}
@@ -122,7 +288,11 @@ export default function PortfolioPage() {
                   <rect x="3" y="3" width="18" height="18" rx="4" />
                   <polygon points="10 12 15 15 10 18 10 12" fill="currentColor" />
                 </svg>
-                Brand Stories <span className="tab-count">({PORTFOLIO_ITEMS.filter(i => i.category === 'Brand Story').length})</span>
+                <span className="tab-title">
+                  <span className="title-full">Brand Stories</span>
+                  <span className="title-short">Brand</span>
+                </span>
+                <span className="tab-count">({PORTFOLIO_ITEMS.filter(i => i.category === 'Brand Story').length})</span>
               </button>
             </div>
           </div>
@@ -132,7 +302,7 @@ export default function PortfolioPage() {
       {/* ── 3. Creative Grid: Reels & Posts ─────────────── */}
       <section id="portfolio-reels" className="portfolio-grid-section">
         <div className="container">
-          <div className="portfolio-feed-grid">
+          <div className={`portfolio-feed-grid ${!showAllReels ? 'collapse-mobile' : ''}`}>
             {displayedItems.map((item, idx) => {
               const isLiked = !!likedItems[item.id];
 
@@ -145,82 +315,10 @@ export default function PortfolioPage() {
                     key={item.id}
                     className="portfolio-grid-item reel-item"
                   >
-                    <div
-                      className="ig-reel-card"
+                    <PortfolioReelCard
+                      item={item}
                       onClick={() => setActiveModalItem(item)}
-                      onMouseEnter={() => setPlayingReelId(item.id)}
-                      onMouseLeave={() => setPlayingReelId(null)}
-                    >
-                      {/* Video / Poster View */}
-                      <div className="ig-reel-media">
-                        {item.video && playingReelId === item.id ? (
-                          <video
-                            src={item.video}
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            className="ig-reel-video"
-                          />
-                        ) : (
-                          <img
-                            src={item.img}
-                            alt={item.title}
-                            className="ig-reel-poster"
-                            loading="lazy"
-                          />
-                        )}
-
-                        {/* Top Ambient Badges */}
-                        <div className="ig-reel-top-bar">
-                          <span className="ig-reel-tag">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                              <rect x="3" y="3" width="18" height="18" rx="4" />
-                              <polygon points="10 12 15 15 10 18 10 12" fill="currentColor" />
-                            </svg>
-                            {item.category === 'UGC' ? 'UGC' : 'BRAND'}
-                          </span>
-                          {item.views && (
-                            <span className="ig-reel-views">
-                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                                <circle cx="12" cy="12" r="3" />
-                              </svg>
-                              {item.views}
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Play Action Overlay Button */}
-                        <div className="ig-reel-play-indicator">
-                          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                            <polygon points="6 3 20 12 6 21 6 3" />
-                          </svg>
-                        </div>
-
-
-
-                        {/* Bottom Reel Caption & Audio Overlay */}
-                        <div className="ig-reel-bottom-info">
-                          <div className="ig-reel-author-row">
-                            <div className="ig-author-avatar-sm">TV</div>
-                            <span className="ig-author-name">@{item.author.handle}</span>
-                            <span className="ig-verified-badge" title="Verified Creator">✓</span>
-                          </div>
-                          <p className="ig-reel-caption-preview">{item.title}</p>
-                          {item.audio && (
-                            <div className="ig-reel-audio-tag">
-                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M9 18V5l12-2v13" />
-                                <circle cx="6" cy="18" r="3" />
-                                <circle cx="18" cy="16" r="3" />
-                              </svg>
-                              <span>{item.audio}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                    />
                   </FadeIn>
                 );
               }
@@ -403,7 +501,7 @@ export default function PortfolioPage() {
                       });
                     }}
                   >
-                    {/* Floating Speech Bubble Tag (@coplin or @andrea) */}
+                    {/* Floating Speech Bubble Tag (@gujrat.tunes or @kesvik.stories) */}
                     {post.authorTag && (
                       <div
                         className="masterpiece-speech-tag"
@@ -437,6 +535,15 @@ export default function PortfolioPage() {
 
           {/* Subtitle Under Cards */}
           <FadeIn direction="up" delay={0.2} className="masterpiece-footer">
+            <div className="masterpiece-swipe-hint">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span>Swipe to explore {MASTERPIECE_POSTS.length} posts</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
             <p className="masterpiece-subtext">
               High-converting carousel graphics, editorial feed posts, and bespoke visual identity systems crafted to build founder authority and turn scrollers into brand advocates.
             </p>
@@ -462,6 +569,7 @@ export default function PortfolioPage() {
                 {activeModalItem.type === 'reel' && activeModalItem.video ? (
                   <video
                     src={activeModalItem.video}
+                    poster={activeModalItem.img}
                     controls
                     autoPlay
                     playsInline
@@ -654,6 +762,14 @@ export default function PortfolioPage() {
           border-radius: 999px;
           background: #f0f7fc;
           border: 1px solid rgba(0, 119, 182, 0.16);
+          max-width: 100%;
+          overflow-x: auto;
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .portfolio-type-tabs::-webkit-scrollbar {
+          display: none;
         }
 
         .type-tab {
@@ -669,6 +785,8 @@ export default function PortfolioPage() {
           background: transparent;
           cursor: pointer;
           transition: all 0.25s ease;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
 
         .type-tab.active {
@@ -680,6 +798,19 @@ export default function PortfolioPage() {
         .tab-count {
           font-size: 0.8rem;
           opacity: 0.7;
+        }
+
+        .tab-title {
+          display: inline-flex;
+          align-items: center;
+        }
+
+        .title-short {
+          display: none;
+        }
+
+        .title-full {
+          display: inline;
         }
 
         /* ── Feed Grid ────────────────────────────── */
@@ -716,14 +847,43 @@ export default function PortfolioPage() {
           width: 100%;
           height: 100%;
           position: relative;
+          background: #03045e;
+          overflow: hidden;
         }
 
-        .ig-reel-poster,
-        .ig-reel-video {
+        .ig-reel-poster {
+          position: absolute;
+          inset: 0;
           width: 100%;
           height: 100%;
           object-fit: cover;
           display: block;
+          z-index: 1;
+          transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .ig-reel-card:hover .ig-reel-poster {
+          transform: scale(1.03);
+        }
+
+        .ig-reel-video {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          z-index: 2;
+          opacity: 0;
+          transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .ig-reel-card:hover .ig-reel-video {
+          transform: scale(1.03);
+        }
+
+        .ig-reel-video.is-playing {
+          opacity: 1;
         }
 
         /* Ambient overlays */
@@ -731,9 +891,131 @@ export default function PortfolioPage() {
           content: "";
           position: absolute;
           inset: 0;
-          background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 25%, transparent 60%, rgba(0,0,0,0.85) 100%);
-          z-index: 1;
+          background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 25%, transparent 60%, rgba(0,0,0,0.88) 100%);
+          z-index: 3;
           pointer-events: none;
+        }
+
+        /* Shimmer & Circular Progress Indicator */
+        .ig-reel-loader-overlay {
+          position: absolute;
+          inset: 0;
+          z-index: 4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          pointer-events: none;
+          animation: reelFadeInLoader 0.2s ease forwards;
+        }
+
+        @keyframes reelFadeInLoader {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .ig-reel-shimmer-sweep {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            115deg,
+            transparent 15%,
+            rgba(255, 255, 255, 0.08) 35%,
+            rgba(0, 180, 216, 0.28) 50%,
+            rgba(255, 255, 255, 0.08) 65%,
+            transparent 85%
+          );
+          background-size: 250% 100%;
+          animation: reelShimmer 1.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes reelShimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+
+        .ig-reel-spinner-container {
+          position: relative;
+          z-index: 5;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          padding: 14px 20px;
+          border-radius: 22px;
+          background: rgba(3, 8, 30, 0.78);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(0, 180, 216, 0.35);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 24px rgba(0, 180, 216, 0.25);
+        }
+
+        .ig-reel-spinner-track-wrap {
+          width: 40px;
+          height: 40px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .ig-reel-spinner-svg {
+          width: 100%;
+          height: 100%;
+          transform: rotate(-90deg);
+          animation: reelSpin 1.1s linear infinite;
+        }
+
+        @keyframes reelSpin {
+          100% { transform: rotate(270deg); }
+        }
+
+        .ig-reel-spinner-bg {
+          stroke: rgba(255, 255, 255, 0.15);
+        }
+
+        .ig-reel-spinner-accent {
+          stroke: #00b4d8;
+          stroke-linecap: round;
+          filter: drop-shadow(0 0 4px #00b4d8);
+          animation: reelDash 1.4s ease-in-out infinite;
+        }
+
+        @keyframes reelDash {
+          0% {
+            stroke-dashoffset: 100;
+          }
+          50% {
+            stroke-dashoffset: 25;
+            stroke: #48cae4;
+          }
+          100% {
+            stroke-dashoffset: 100;
+            stroke: #0096c7;
+          }
+        }
+
+        .ig-reel-spinner-core-dot {
+          position: absolute;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #48cae4;
+          box-shadow: 0 0 8px #00b4d8;
+          animation: reelCorePulse 1.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes reelCorePulse {
+          0% { transform: scale(0.8); opacity: 0.7; }
+          100% { transform: scale(1.3); opacity: 1; }
+        }
+
+        .ig-reel-spinner-label {
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          color: #e0f2fe;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
 
         .ig-reel-top-bar {
@@ -744,7 +1026,7 @@ export default function PortfolioPage() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          z-index: 2;
+          z-index: 5;
         }
 
         .ig-reel-tag {
@@ -774,30 +1056,6 @@ export default function PortfolioPage() {
           color: #ffffff;
         }
 
-        .ig-reel-play-indicator {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 54px;
-          height: 54px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.25);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.6);
-          color: #ffffff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 2;
-          transition: transform 0.3s ease, background 0.3s ease;
-        }
-
-        .ig-reel-card:hover .ig-reel-play-indicator {
-          transform: translate(-50%, -50%) scale(1.12);
-          background: rgba(255, 255, 255, 0.4);
-        }
-
         /* Action Rail */
         .ig-reel-action-rail {
           position: absolute;
@@ -807,7 +1065,7 @@ export default function PortfolioPage() {
           flex-direction: column;
           gap: 16px;
           align-items: center;
-          z-index: 2;
+          z-index: 5;
         }
 
         .ig-action-btn {
@@ -844,7 +1102,7 @@ export default function PortfolioPage() {
           left: 16px;
           right: 65px;
           bottom: 16px;
-          z-index: 2;
+          z-index: 5;
           color: #ffffff;
         }
 
@@ -1420,12 +1678,32 @@ export default function PortfolioPage() {
 
         @media (max-width: 768px) {
           .masterpiece-heading {
-            font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+            font-size: clamp(1.15rem, 5.4vw, 1.85rem);
             gap: 4px;
-            line-height: 1.2;
+            line-height: 1.25;
+            text-align: center;
           }
           .masterpiece-heading-line {
-            white-space: normal;
+            white-space: nowrap;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .masterpiece-heading {
+            font-size: clamp(1.02rem, 5.3vw, 1.45rem);
+            gap: 3px;
+          }
+          .masterpiece-heading-line {
+            white-space: nowrap;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .masterpiece-heading {
+            font-size: 0.95rem;
+          }
+          .masterpiece-heading-line {
+            white-space: nowrap;
           }
         }
 
@@ -1529,9 +1807,14 @@ export default function PortfolioPage() {
           margin: 0;
           line-height: 1.3;
           font-family: var(--font-head), 'Poppins', sans-serif;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
-        /* Floating speech bubbles like @coplin and @andrea from screenshot */
+        /* Floating speech bubbles like @gujrat.tunes and @kesvik.stories from screenshot */
         .masterpiece-speech-tag {
           position: absolute;
           top: -52px;
@@ -1585,33 +1868,115 @@ export default function PortfolioPage() {
           margin: 0;
         }
 
+        .masterpiece-swipe-hint {
+          display: none;
+        }
+
         @media (max-width: 900px) {
           .masterpiece-deck-container {
             overflow-x: auto;
+            overflow-y: visible;
             justify-content: flex-start;
-            padding: 70px 24px 30px;
+            padding: 55px 24px 22px;
+            margin: 0 calc(-1 * clamp(24px, 3.5vw, 48px));
             scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+            scroll-padding: 0 24px;
           }
+
           .masterpiece-deck-container::-webkit-scrollbar {
             display: none;
           }
+
           .masterpiece-cards-wrapper {
-            margin: 0 auto;
-            min-height: 360px;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 16px;
+            width: max-content;
+            margin: 0;
+            min-height: auto;
+            padding: 0 4px;
           }
+
           .masterpiece-card-item {
-            width: 175px;
-            margin: 0 -16px;
+            position: relative;
+            width: clamp(230px, 72vw, 280px) !important;
+            aspect-ratio: 4 / 5 !important;
+            margin: 0 !important;
+            flex-shrink: 0;
+            transform: none !important;
+            scroll-snap-align: center;
+            border-radius: 24px;
+          }
+
+          .masterpiece-card-item:hover {
+            transform: none !important;
+          }
+
+          .masterpiece-card-inner {
+            border-radius: 24px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
+          }
+
+          .masterpiece-card-overlay {
+            opacity: 1 !important;
+            background: linear-gradient(to top, rgba(3, 4, 94, 0.9) 0%, rgba(3, 4, 94, 0.4) 48%, transparent 100%);
+            padding: 16px;
+          }
+
+          .masterpiece-card-badge {
+            font-size: 10px;
+            padding: 3px 9px;
+            margin-bottom: 5px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+          }
+
+          .masterpiece-card-name {
+            font-size: 0.95rem;
+            line-height: 1.25;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+          }
+
+          .masterpiece-speech-tag {
+            top: -42px;
+            font-size: 0.8rem;
+            padding: 6px 14px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+          }
+
+          .masterpiece-swipe-hint {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto 16px;
+            padding: 7px 18px;
+            border-radius: 999px;
+            background: rgba(0, 119, 182, 0.06);
+            border: 1px solid rgba(0, 119, 182, 0.16);
+            color: #0077b6;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+          }
+
+          .masterpiece-subtext {
+            font-size: 0.92rem;
+            padding: 0 12px;
           }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
           .masterpiece-card-item {
-            width: 145px;
-            margin: 0 -12px;
+            width: 240px !important;
           }
-          .masterpiece-card-inner {
-            border-radius: 20px;
+
+          .masterpiece-deck-container {
+            padding: 50px 16px 18px;
           }
         }
 
@@ -1640,16 +2005,61 @@ export default function PortfolioPage() {
             max-width: 420px;
             margin: 0 auto;
           }
+          .portfolio-feed-grid.collapse-mobile .portfolio-grid-item:nth-child(n+4) {
+            display: none !important;
+          }
           .portfolio-metrics-bar {
             display: none;
           }
-          .portfolio-type-tabs {
-            flex-direction: column;
+          .portfolio-filter-container {
+            margin-top: 24px;
             width: 100%;
+            max-width: 440px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          .portfolio-type-tabs {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            align-items: center;
+            justify-content: stretch;
+            padding: 4px;
+            gap: 4px;
+            border-radius: 999px;
+            background: #f0f7fc;
+            border: 1px solid rgba(0, 119, 182, 0.16);
+            box-sizing: border-box;
           }
           .type-tab {
-            width: 100%;
+            flex: 1 1 0px;
+            min-width: 0;
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
+            padding: 9px 4px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            gap: 5px;
+            white-space: nowrap;
+          }
+          .type-tab svg {
+            width: 13px;
+            height: 13px;
+            flex-shrink: 0;
+          }
+          .title-full {
+            display: none;
+          }
+          .title-short {
+            display: inline;
+          }
+          .tab-count {
+            font-size: 0.74rem;
+            opacity: 0.7;
           }
           .portfolio-cta-card {
             padding: 40px 20px;
@@ -1663,6 +2073,25 @@ export default function PortfolioPage() {
           .portfolio-btn-secondary {
             width: 100%;
             justify-content: center;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .portfolio-type-tabs {
+            padding: 3px;
+            gap: 2px;
+          }
+          .type-tab {
+            padding: 7px 2px;
+            font-size: 0.72rem;
+            gap: 3px;
+          }
+          .type-tab svg {
+            width: 11px;
+            height: 11px;
+          }
+          .tab-count {
+            font-size: 0.68rem;
           }
         }
       `}</style>
