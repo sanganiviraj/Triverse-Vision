@@ -58,14 +58,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.png', type: 'image/png' },
-      { url: '/assets/triverse_vision_logo.png', type: 'image/png' },
+      { url: '/favicon.ico?v=2', sizes: 'any' },
+      { url: '/icon.png?v=2', type: 'image/png' },
+      { url: '/assets/triverse_vision_logo.png?v=2', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico',
+    shortcut: '/favicon.ico?v=2',
     apple: [
-      { url: '/apple-icon.png' },
-      { url: '/assets/triverse_vision_logo.png' },
+      { url: '/apple-icon.png?v=2' },
+      { url: '/assets/triverse_vision_logo.png?v=2' },
     ],
   },
 };
