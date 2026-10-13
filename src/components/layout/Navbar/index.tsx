@@ -243,10 +243,9 @@ export default function Navbar() {
             <Image
               src="/assets/triverse_vision_logo.png"
               alt="Triverse Vision Logo"
-              width={160}
-              height={38}
+              width={180}
+              height={44}
               priority
-              style={{ height: '38px', width: 'auto' }}
               className="nav-logo-img"
             />
             <span className="logo-text">Triverse Vision</span>
@@ -375,7 +374,7 @@ export default function Navbar() {
         }
 
         .nav-logo-img {
-          height: 40px;
+          height: 44px;
           width: auto;
           object-fit: contain;
           display: block;
@@ -383,7 +382,7 @@ export default function Navbar() {
         }
 
         .glass-navbar.scrolled .nav-logo-img {
-          height: 34px;
+          height: 38px;
         }
 
         /* Navigation Links */

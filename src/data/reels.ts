@@ -76,8 +76,8 @@ export const reelsData = [
     title: "Aeris Studio — UGC Creator Story",
     desc: "Authentic creator conversation and lifestyle UGC",
     tag: "UGC",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790161824/aeris22_sb36f2.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790161824/aeris22_sb36f2.mp4"
+    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_3/v1790170131/aris2222_1_dquhnv.jpg",
+    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790170131/aris2222_1_dquhnv.mp4"
   }
 ];
 

@@ -267,10 +267,11 @@ export default function Work() {
             <div className="relative w-full h-full min-h-[300px]">
               <Image
                 className="work-bento__video object-cover"
-                src="https://res.cloudinary.com/dufzjnj9b/video/upload/w_800,c_fill,q_auto,f_auto,so_6/v1790060308/SaveClip.App_AQMv157mL6idWHevalof4AjKMTmV83RcGsllvueOsSSki4vs7g8t_c4ZPM_crQ107vy8LDvaZ22mV-akgewnyEUgORZvGhFUt1oPaFM_1_wc4rai.jpg"
-                alt="Triverse Vision Reel"
+                src="/assets/work_script_writing.webp"
+                alt="Triverse Vision Scriptwriting and Content Strategy"
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
               />
             </div>
             <div className="work-bento__center-overlay">

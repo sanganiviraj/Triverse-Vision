@@ -232,44 +232,6 @@ export default function Hero() {
                   {/* Bottom Home Indicator Bar */}
                   <div className="iphone-home-bar" />
 
-                  {/* Hover overlay + Play button */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: isHovered ? 'rgba(0, 0, 0, 0.2)' : 'transparent',
-                      transition: 'background 0.3s ease',
-                      pointerEvents: 'none',
-                      zIndex: 15
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: '54px',
-                        height: '54px',
-                        borderRadius: '50%',
-                        backgroundColor: 'rgba(2, 62, 138, 0.75)',
-                        backdropFilter: 'blur(12px)',
-                        WebkitBackdropFilter: 'blur(12px)',
-                        border: '1.5px solid rgba(144, 224, 239, 0.85)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#ffffff',
-                        transform: isHovered ? 'scale(1)' : 'scale(0.7)',
-                        opacity: isHovered ? 1 : 0,
-                        transition: 'all 0.3s cubic-bezier(0.2, 1, 0.3, 1)',
-                        boxShadow: '0 8px 28px rgba(0, 119, 182, 0.45)'
-                      }}
-                    >
-                      <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24" style={{ marginLeft: '2px' }}>
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
               </div>
             </motion.div>
