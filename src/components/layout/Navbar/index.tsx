@@ -239,16 +239,16 @@ export default function Navbar() {
             href={pathname === '/' ? '#hero' : '/'}
             className="nav-logo"
             onClick={() => handleLinkClick(pathname === '/' ? '#hero' : '/')}
+            aria-label="Triverse Vision Home"
           >
             <Image
               src="/assets/triverse_vision_logo.png"
               alt="Triverse Vision Logo"
-              width={180}
-              height={44}
+              width={200}
+              height={46}
               priority
               className="nav-logo-img"
             />
-            <span className="logo-text">Triverse Vision</span>
           </a>
 
           {/* Desktop Navigation Links */}
@@ -374,7 +374,7 @@ export default function Navbar() {
         }
 
         .nav-logo-img {
-          height: 44px;
+          height: 48px;
           width: auto;
           object-fit: contain;
           display: block;
@@ -382,7 +382,7 @@ export default function Navbar() {
         }
 
         .glass-navbar.scrolled .nav-logo-img {
-          height: 38px;
+          height: 40px;
         }
 
         /* Navigation Links */
@@ -627,9 +627,6 @@ export default function Navbar() {
         }
 
         @media (max-width: 400px) {
-          .logo-text {
-            font-size: 14px;
-          }
           .nav-logo-img {
             height: 38px;
           }
