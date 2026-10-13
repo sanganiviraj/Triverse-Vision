@@ -40,10 +40,10 @@ export const metadata: Metadata = {
     siteName: "Triverse Vision",
     images: [
       {
-        url: "/assets/sampleimage.png", // Replace with an actual OG image later
+        url: "https://www.triversevision.com/assets/og_image.png?v=2",
         width: 1200,
         height: 630,
-        alt: "Triverse Vision Agency",
+        alt: "Triverse Vision | Premium Video & Personal Branding Agency",
       },
     ],
   },
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Triverse Vision | Premium Video & Personal Branding Agency",
     description: "Triverse Vision crafts cinematic reels, brand films, and social content that transforms founders into global authorities.",
-    images: ["/assets/sampleimage.png"], // Replace with an actual OG image later
+    images: ["https://www.triversevision.com/assets/og_image.png?v=2"],
   },
   alternates: {
     canonical: '/',
