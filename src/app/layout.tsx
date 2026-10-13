@@ -58,14 +58,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico?v=3', sizes: 'any' },
-      { url: '/icon.png?v=3', type: 'image/png' },
-      { url: '/assets/favicon_logo.png?v=3', type: 'image/png' },
+      { url: '/favicon.ico?v=4', sizes: 'any' },
+      { url: '/icon.png?v=4', type: 'image/png' },
+      { url: '/assets/favicon_logo.png?v=4', type: 'image/png' },
     ],
-    shortcut: '/favicon.ico?v=3',
+    shortcut: '/favicon.ico?v=4',
     apple: [
-      { url: '/apple-icon.png?v=3' },
-      { url: '/assets/favicon_logo.png?v=3' },
+      { url: '/apple-icon.png?v=4' },
+      { url: '/assets/favicon_logo.png?v=4' },
     ],
   },
 };
