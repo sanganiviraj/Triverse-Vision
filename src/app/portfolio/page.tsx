@@ -171,6 +171,15 @@ export default function PortfolioPage() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Pause any background playing videos when modal lightbox is opened
+  useEffect(() => {
+    if (activeModalItem) {
+      document.querySelectorAll('.ig-reel-video').forEach((el) => {
+        (el as HTMLVideoElement).pause();
+      });
+    }
+  }, [activeModalItem]);
+
   // Filtered items based on category
   const filteredItems = PORTFOLIO_ITEMS.filter((item) => {
     if (filterCategory === 'all') return true;
