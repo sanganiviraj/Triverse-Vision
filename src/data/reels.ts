@@ -1,83 +1,73 @@
-export const reelsData = [
+export interface ReelItem {
+  id: number;
+  title: string;
+  desc: string;
+  tag: string;
+  img: string;
+  video: string;
+  likes?: string;
+  views?: string;
+}
+
+export const reelsData: ReelItem[] = [
   {
     id: 0,
-    title: "Verritas — Maternal & Infant Care",
-    desc: "Empathetic healthcare and maternal guidance storytelling",
+    title: "Dwarka — Cultural Journey & Brand Narrative",
+    desc: "High-retention cinematic storytelling and cultural heritage",
     tag: "Brand Story",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790057815/04-08_Verritas_Breast_Feeding_xwc6rv.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790057815/04-08_Verritas_Breast_Feeding_xwc6rv.mp4"
+    img: "https://ik.imagekit.io/eezte2o1o/Dwarka%20(1)%20(1).mp4/ik-thumbnail.jpg",
+    video: "https://ik.imagekit.io/eezte2o1o/Dwarka%20(1)%20(1).mp4",
+    likes: "9,640",
+    views: "384.2K"
   },
   {
     id: 1,
-    title: "Vijvik Toys — UGC Experience",
-    desc: "Engaging UGC toy demonstration and product review",
-    tag: "UGC",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058850/Jenish_Vijvik_Toys_uudfvj.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058850/Jenish_Vijvik_Toys_uudfvj.mp4"
+    title: "Verritas — Maternal & Infant Care",
+    desc: "Empathetic healthcare and maternal guidance storytelling",
+    tag: "Brand Story",
+    img: "https://ik.imagekit.io/eezte2o1o/04-08%20Verritas%20Breast%20Feeding.mp4/ik-thumbnail.jpg",
+    video: "https://ik.imagekit.io/eezte2o1o/04-08%20Verritas%20Breast%20Feeding.mp4",
+    likes: "2,200",
+    views: "78,926"
   },
   {
     id: 2,
-    title: "Cultural Journey & Narrative",
-    desc: "High-retention personal and cultural storytelling",
-    tag: "Brand Story",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_1/v1790060308/SaveClip.App_AQMv157mL6idWHevalof4AjKMTmV83RcGsllvueOsSSki4vs7g8t_c4ZPM_crQ107vy8LDvaZ22mV-akgewnyEUgORZvGhFUt1oPaFM_1_wc4rai.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790060308/SaveClip.App_AQMv157mL6idWHevalof4AjKMTmV83RcGsllvueOsSSki4vs7g8t_c4ZPM_crQ107vy8LDvaZ22mV-akgewnyEUgORZvGhFUt1oPaFM_1_wc4rai.mp4"
+    title: "Vijvik Toys — UGC Experience",
+    desc: "Engaging UGC toy demonstration and product review",
+    tag: "UGC",
+    img: "https://ik.imagekit.io/eezte2o1o/Jenish%20Vijvik%20Toys.mp4/ik-thumbnail.jpg",
+    video: "https://ik.imagekit.io/eezte2o1o/Jenish%20Vijvik%20Toys.mp4",
+    likes: "4,850",
+    views: "142.5K"
   },
   {
     id: 3,
-    title: "Commonwealth — UGC Growth Story",
-    desc: "Organic UGC story with real-life community narrative",
-    tag: "UGC",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058867/30-7_MohitBhai_Common_Wealth_obgxtw.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058867/30-7_MohitBhai_Common_Wealth_obgxtw.mp4"
-  },
-  {
-    id: 4,
     title: "Red & White Multimedia",
     desc: "High-retention skill accelerator & leadership",
     tag: "Brand Story",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058885/21-08_Nikunjbhai_Red_white_skill_lu2nbi.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058885/21-08_Nikunjbhai_Red_white_skill_lu2nbi.mp4"
+    img: "https://ik.imagekit.io/eezte2o1o/21-08%20Nikunjbhai%20Red&white%20skill.mp4/ik-thumbnail.jpg",
+    video: "https://ik.imagekit.io/eezte2o1o/21-08%20Nikunjbhai%20Red&white%20skill.mp4",
+    likes: "14.8K",
+    views: "520.4K"
   },
   {
-    id: 5,
-    title: "Custom Pieces — Bespoke Craft",
-    desc: "Handcrafted luxury design and bespoke craftsmanship",
-    tag: "Brand Story",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058830/23-7_Custom_Pieces_ewpkmw.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058830/23-7_Custom_Pieces_ewpkmw.mp4"
-  },
-  {
-    id: 6,
-    title: "Verritas — Everyday Baby Routine",
-    desc: "Gentle daily routine lifestyle narrative",
-    tag: "Brand Story",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058858/14-09_Verritas_Baby_Routin_jsrdqi.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058858/14-09_Verritas_Baby_Routin_jsrdqi.mp4"
-  },
-  {
-    id: 7,
-    title: "Campus Life — Student Experience",
-    desc: "Authentic student community UGC reel",
-    tag: "UGC",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790058850/12-08_Mohit_school_video_zpd2ub.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790058850/12-08_Mohit_school_video_zpd2ub.mp4"
-  },
-  {
-    id: 8,
+    id: 4,
     title: "Aeris Jewellery — UGC Showcase",
     desc: "Bridal craftsmanship and fine jewelry creator narrative",
     tag: "UGC",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_2/v1790161629/aeris1_xjat2l.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790161629/aeris1_xjat2l.mp4"
+    img: "https://ik.imagekit.io/eezte2o1o/02-10%20Aeris%20Final%20with%20logo.mp4/ik-thumbnail.jpg",
+    video: "https://ik.imagekit.io/eezte2o1o/02-10%20Aeris%20Final%20with%20logo.mp4",
+    likes: "11.2K",
+    views: "432.8K"
   },
   {
-    id: 9,
-    title: "Aeris Studio — UGC Creator Story",
-    desc: "Authentic creator conversation and lifestyle UGC",
-    tag: "UGC",
-    img: "https://res.cloudinary.com/dufzjnj9b/video/upload/w_360,h_640,c_fill,q_auto,f_auto,so_3/v1790170131/aris2222_1_dquhnv.jpg",
-    video: "https://res.cloudinary.com/dufzjnj9b/video/upload/v1790170131/aris2222_1_dquhnv.mp4"
+    id: 5,
+    title: "Verritas — Child Planning & Wellness",
+    desc: "Gentle daily routine lifestyle and healthcare narrative",
+    tag: "Brand Story",
+    img: "https://ik.imagekit.io/eezte2o1o/19-10%20Verritas%20When%20Child%20Plan.mp4/ik-thumbnail.jpg",
+    video: "https://ik.imagekit.io/eezte2o1o/19-10%20Verritas%20When%20Child%20Plan.mp4",
+    likes: "5,180",
+    views: "164.7K"
   }
 ];
-
